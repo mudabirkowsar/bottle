@@ -18,7 +18,7 @@ function Navbar() {
 
     const openQuery = () => {
         setMenuOpen(false)
-        navigate("/")
+        navigate("/query")
     }
 
     return (
