@@ -5,6 +5,7 @@ import CustomBottlePage from '../components/customBottle/CustomBottlePage'
 import PricingPage from '../components/pricingPage/PricingPage'
 import HowItWorks from '../components/howItWorks/HowItWorks'
 import Gallery from '../components/gallery/Gallery'
+import Footer from '../components/footer/Footer'
 
 function HomePage() {
   return (
@@ -15,6 +16,7 @@ function HomePage() {
       <PricingPage />
       <Gallery />
       <HowItWorks />
+      <Footer />
     </>
   )
 }
