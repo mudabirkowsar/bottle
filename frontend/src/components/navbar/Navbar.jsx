@@ -1,13 +1,30 @@
 import React, { useState } from 'react'
 import './Navbar.css'
+import { useNavigate } from 'react-router-dom'
 
 function Navbar() {
     const [menuOpen, setMenuOpen] = useState(false)
+    const navigate = useNavigate();
+
+    const openNavbar = () => {
+        setMenuOpen(false)
+        navigate("/")
+    }
+
+    const openAbout = () => {
+        setMenuOpen(false)
+        navigate("/aboutus")
+    }
+
+    const openQuery = () => {
+        setMenuOpen(false)
+        navigate("/")
+    }
 
     return (
         <nav className="navbar">
             {/* Logo */}
-            <div className="navbar-logo">
+            <div className="navbar-logo" onClick={()=> navigate("/")}>
                 Aqua<span>Pure</span>
             </div>
 
@@ -23,9 +40,9 @@ function Navbar() {
 
             {/* Menu */}
             <ul className={`navbar-menu ${menuOpen ? 'open' : ''}`}>
-                <li onClick={() => setMenuOpen(false)}>Home</li>
-                <li onClick={() => setMenuOpen(false)}>About Business</li>
-                <li onClick={() => setMenuOpen(false)}>Query</li>
+                <li onClick={openNavbar}>Home</li>
+                <li onClick={openAbout}>About Business</li>
+                <li onClick={openQuery}>Query</li>
                 <li>
                     <button className="order-btn">Order Now</button>
                 </li>

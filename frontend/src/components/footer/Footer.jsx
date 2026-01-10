@@ -1,5 +1,6 @@
 import React from 'react'
 import './Footer.css'
+import WhatsappIcon from '../smallComponents/WhatsappIcon'
 
 function Footer() {
     return (
@@ -61,17 +62,7 @@ function Footer() {
                 © {new Date().getFullYear()} AquaPure. All Rights Reserved.
             </div>
 
-            <div className="whatsapp-wrapper">
-                <div className="whatsapp-text">Chat with us</div>
-                <a
-                    href="https://wa.me/6006287541"
-                    className="whatsapp-float"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                >
-                    <i class="fa-brands fa-whatsapp abcdef"></i>
-                </a>
-            </div>
+            <WhatsappIcon />
 
         </footer>
     )
