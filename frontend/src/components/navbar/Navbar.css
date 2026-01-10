@@ -1,0 +1,136 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.navbar {
+  height: 70px;
+  padding: 0 50px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: linear-gradient(90deg, #0f9b8e, #0c7cd5);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+  position: fixed;
+  z-index: 100;
+  width: 100%;
+}
+
+/* Logo */
+.navbar-logo {
+  font-size: 28px;
+  font-weight: bold;
+  color: #ffffff;
+  cursor: pointer;
+}
+
+.navbar-logo span {
+  color: #caffbf;
+}
+
+/* Menu */
+.navbar-menu {
+  list-style: none;
+  display: flex;
+  align-items: center;
+  gap: 30px;
+}
+
+.navbar-menu li {
+  color: #ffffff;
+  font-size: 16px;
+  cursor: pointer;
+  position: relative;
+}
+
+/* Hover underline */
+.navbar-menu li::after {
+  content: '';
+  width: 0;
+  height: 2px;
+  background: #caffbf;
+  position: absolute;
+  left: 0;
+  bottom: -6px;
+  transition: width 0.3s ease;
+}
+
+.navbar-menu li:hover::after {
+  width: 100%;
+}
+
+/* Order Button */
+.order-btn {
+  padding: 10px 22px;
+  border-radius: 25px;
+  border: none;
+  background: #caffbf;
+  color: #0f5132;
+  font-size: 15px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.order-btn:hover {
+  background: #ffffff;
+  transform: scale(1.05);
+}
+
+/* 🔥 Hamburger */
+.hamburger {
+  display: none;
+  flex-direction: column;
+  cursor: pointer;
+  gap: 5px;
+}
+
+.hamburger span {
+  width: 25px;
+  height: 3px;
+  background: #ffffff;
+  transition: all 0.3s ease;
+}
+
+/* Animate hamburger */
+.hamburger.active span:nth-child(1) {
+  transform: rotate(45deg) translate(5px, 5px);
+}
+
+.hamburger.active span:nth-child(2) {
+  opacity: 0;
+}
+
+.hamburger.active span:nth-child(3) {
+  transform: rotate(-45deg) translate(5px, -5px);
+}
+
+/* 📱 Mobile & Tablet */
+@media (max-width: 900px) {
+  .hamburger {
+    display: flex;
+  }
+
+  .navbar-menu {
+    position: absolute;
+    top: 70px;
+    right: 0;
+    width: 100%;
+    background: linear-gradient(180deg, #0f9b8e, #0c7cd5);
+    flex-direction: column;
+    gap: 20px;
+    padding: 30px 0;
+    transform: translateY(-150%);
+    transition: transform 0.4s ease;
+  }
+
+  .navbar-menu.open {
+    transform: translateY(0);
+  }
+
+  .navbar-menu li {
+    font-size: 18px;
+  }
+}
