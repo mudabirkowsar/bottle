@@ -5,6 +5,12 @@
   font-family: 'Segoe UI', sans-serif;
 }
 
+.step-icon i {
+  font-size: 36px;
+  color: #0c7cd5;
+}
+
+
 .how {
   min-height: 100vh;
   padding: 80px 60px;

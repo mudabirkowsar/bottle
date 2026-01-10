@@ -21,10 +21,15 @@ function Navbar() {
         navigate("/query")
     }
 
+    const openOrderNow = () => {
+        setMenuOpen(false);
+        navigate("/ordernow")
+    }
+
     return (
         <nav className="navbar">
             {/* Logo */}
-            <div className="navbar-logo" onClick={()=> navigate("/")}>
+            <div className="navbar-logo" onClick={() => navigate("/")}>
                 Aqua<span>Pure</span>
             </div>
 
@@ -43,7 +48,7 @@ function Navbar() {
                 <li onClick={openNavbar}>Home</li>
                 <li onClick={openAbout}>About Business</li>
                 <li onClick={openQuery}>Query</li>
-                <li>
+                <li onClick={openOrderNow}>
                     <button className="order-btn">Order Now</button>
                 </li>
             </ul>

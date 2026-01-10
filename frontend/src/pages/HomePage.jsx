@@ -12,7 +12,7 @@ function HomePage() {
     <>
       <Navbar />
       <LandingPage />
-      <CustomBottlePage />
+      {/* <CustomBottlePage /> */}
       <PricingPage />
       <Gallery />
       <HowItWorks />

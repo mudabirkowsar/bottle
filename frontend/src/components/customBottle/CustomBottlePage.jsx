@@ -24,22 +24,30 @@ function CustomBottlePage() {
 
         <div className="custom-cards">
           <div className="custom-card">
-            <h3>💍 Weddings</h3>
+            <h3>
+              <i className="fa-solid fa-heart"></i> Weddings
+            </h3>
             <p>Personalized bottles with couple names & wedding dates.</p>
           </div>
 
           <div className="custom-card">
-            <h3>🍽️ Restaurants & Cafes</h3>
+            <h3>
+              <i className="fa-solid fa-utensils"></i> Restaurants & Cafes
+            </h3>
             <p>Elegant branded bottles to enhance your dining experience.</p>
           </div>
 
           <div className="custom-card">
-            <h3>🏢 Corporate Events</h3>
+            <h3>
+              <i className="fa-solid fa-building"></i> Corporate Events
+            </h3>
             <p>Professional branding for meetings, seminars & promotions.</p>
           </div>
 
           <div className="custom-card">
-            <h3>🎉 Parties & Events</h3>
+            <h3>
+              <i className="fa-solid fa-champagne-glasses"></i> Parties & Events
+            </h3>
             <p>Custom labels for birthdays, launches & special events.</p>
           </div>
         </div>
@@ -50,10 +58,18 @@ function CustomBottlePage() {
         <h2>How It Works</h2>
 
         <div className="process-steps">
-          <div className="step">1️⃣ Share Your Design</div>
-          <div className="step">2️⃣ Approve Sample</div>
-          <div className="step">3️⃣ Production</div>
-          <div className="step">4️⃣ Fast Delivery</div>
+          <div className="step">
+            <i className="fa-solid fa-pen-nib"></i> Share Your Design
+          </div>
+          <div className="step">
+            <i className="fa-solid fa-circle-check"></i> Approve Sample
+          </div>
+          <div className="step">
+            <i className="fa-solid fa-industry"></i> Production
+          </div>
+          <div className="step">
+            <i className="fa-solid fa-truck-fast"></i> Fast Delivery
+          </div>
         </div>
       </div>
     </section>

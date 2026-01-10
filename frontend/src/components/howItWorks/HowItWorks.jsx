@@ -1,7 +1,10 @@
 import React from 'react'
 import './HowItWorks.css'
+import { useNavigate } from 'react-router-dom'
 
 function HowItWorks() {
+  const navigate = useNavigate()
+
   return (
     <section className="how">
       {/* Header */}
@@ -15,7 +18,9 @@ function HowItWorks() {
       {/* Steps */}
       <div className="how-steps">
         <div className="how-step">
-          <div className="step-icon">📝</div>
+          <div className="step-icon">
+            <i className="fa-solid fa-clipboard-list"></i>
+          </div>
           <h3>Place Your Order</h3>
           <p>
             Choose bottle size, quantity, and branding. Place your order online
@@ -24,7 +29,9 @@ function HowItWorks() {
         </div>
 
         <div className="how-step">
-          <div className="step-icon">🎨</div>
+          <div className="step-icon">
+            <i className="fa-solid fa-palette"></i>
+          </div>
           <h3>Design & Approval</h3>
           <p>
             We create a custom label design and send it for your approval before
@@ -33,7 +40,9 @@ function HowItWorks() {
         </div>
 
         <div className="how-step">
-          <div className="step-icon">🏭</div>
+          <div className="step-icon">
+            <i className="fa-solid fa-industry"></i>
+          </div>
           <h3>Production</h3>
           <p>
             Bottles are filled, sealed, and labeled in a hygienic environment.
@@ -41,7 +50,9 @@ function HowItWorks() {
         </div>
 
         <div className="how-step">
-          <div className="step-icon">🚚</div>
+          <div className="step-icon">
+            <i className="fa-solid fa-truck-fast"></i>
+          </div>
           <h3>Fast Delivery</h3>
           <p>
             Secure packaging and on-time delivery directly to your location.
@@ -53,7 +64,7 @@ function HowItWorks() {
       <div className="how-cta">
         <h2>Ready to Get Started?</h2>
         <p>Order fresh, customized water bottles today.</p>
-        <button>Order Now</button>
+        <button onClick={() => navigate('/ordernow')}>Order Now</button>
       </div>
     </section>
   )
