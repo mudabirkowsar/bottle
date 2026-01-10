@@ -3,6 +3,8 @@ import Navbar from '../components/navbar/Navbar'
 import LandingPage from '../components/landingPage/LandingPage'
 import CustomBottlePage from '../components/customBottle/CustomBottlePage'
 import PricingPage from '../components/pricingPage/PricingPage'
+import HowItWorks from '../components/howItWorks/HowItWorks'
+import Gallery from '../components/gallery/Gallery'
 
 function HomePage() {
   return (
@@ -11,6 +13,8 @@ function HomePage() {
       <LandingPage />
       <CustomBottlePage />
       <PricingPage />
+      <Gallery />
+      <HowItWorks />
     </>
   )
 }

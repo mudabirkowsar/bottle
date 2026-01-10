@@ -1,0 +1,117 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.gallery2 {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #eef7f6, #f2f8ff);
+}
+
+/* Hero */
+.gallery2-hero {
+  height: 40vh;
+  background: linear-gradient(90deg, #0f9b8e, #0c7cd5);
+  color: #ffffff;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 0 20px;
+}
+
+.gallery2-hero h1 {
+  font-size: 46px;
+  margin-bottom: 10px;
+}
+
+.gallery2-hero p {
+  font-size: 18px;
+  opacity: 0.95;
+}
+
+/* Masonry Layout */
+.masonry {
+  padding: 80px 60px;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-auto-rows: 200px;
+  gap: 20px;
+}
+
+.masonry-item {
+  position: relative;
+  overflow: hidden;
+  border-radius: 20px;
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+}
+
+.masonry-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+/* Size variations */
+.masonry-item.tall {
+  grid-row: span 2;
+}
+
+.masonry-item.wide {
+  grid-column: span 2;
+}
+
+/* Hover */
+.masonry-item:hover img {
+  transform: scale(1.15);
+}
+
+/* Overlay */
+.overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(15, 155, 142, 0.75);
+  color: #ffffff;
+  font-size: 18px;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  backdrop-filter: blur(4px);
+  transition: opacity 0.4s ease;
+}
+
+.masonry-item:hover .overlay {
+  opacity: 1;
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .masonry {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .masonry-item.wide {
+    grid-column: span 1;
+  }
+}
+
+@media (max-width: 600px) {
+  .gallery2-hero h1 {
+    font-size: 34px;
+  }
+
+  .masonry {
+    padding: 50px 20px;
+    grid-template-columns: 1fr;
+  }
+
+  .masonry-item.tall {
+    grid-row: span 1;
+  }
+}
