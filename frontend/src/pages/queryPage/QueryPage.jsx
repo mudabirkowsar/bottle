@@ -2,8 +2,15 @@ import React from 'react'
 import Navbar from '../../components/navbar/Navbar'
 import Footer from '../../components/footer/Footer'
 import './QueryPage.css'
+import { useState } from 'react'
 
 function QueryPage() {
+
+    const [name, setName] = useState("")
+    const [email, setEmail] = useState("")
+    const [phone, setPhone] = useState("")
+    const [message, setMessage] = useState("")
+
     return (
         <>
             <Navbar />
@@ -30,22 +37,44 @@ function QueryPage() {
                     <form>
                         <div className="input-group">
                             <i className="fas fa-user"></i>
-                            <input type="text" placeholder="Your Name" required />
+                            <input
+                                type="text"
+                                placeholder="Your Name"
+                                required
+                                value={name}
+                                onChange={(e) => setName(e.target.value)}
+                            />
                         </div>
 
                         <div className="input-group">
                             <i className="fas fa-envelope"></i>
-                            <input type="email" placeholder="Email Address" required />
+                            <input
+                                type="email"
+                                placeholder="Email Address"
+                                required
+                                value={email}
+                                onChange={(e) => setEmail(e.target.value)}
+                            />
                         </div>
 
                         <div className="input-group">
                             <i className="fas fa-phone"></i>
-                            <input type="tel" placeholder="Phone Number" />
+                            <input
+                                type="tel"
+                                placeholder="Phone Number"
+                                value={phone}
+                                required
+                                onChange={(e) => setPhone(e.target.value)}
+                            />
                         </div>
 
                         <div className="input-group textarea">
                             <i className="fas fa-comment-dots"></i>
-                            <textarea placeholder="Your Message" rows="4"></textarea>
+                            <textarea
+                                placeholder="Your Message"
+                                value={message}
+                                onChange={(e) => setMessage(e.target.value)}
+                                rows="4"></textarea>
                         </div>
 
                         <button type="submit">
@@ -76,7 +105,7 @@ function QueryPage() {
                     <div className="info-highlight">
                         <i className="fab fa-whatsapp"></i>
                         <a
-                        style={{color:"black"}}
+                            style={{ color: "black" }}
                             href="https://wa.me/6006287541"
                             target="_blank"
                             rel="noopener noreferrer"
