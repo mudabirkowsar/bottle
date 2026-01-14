@@ -1,10 +1,15 @@
 import React, { useState } from 'react'
 import './Navbar.css'
 import { useNavigate } from 'react-router-dom'
+import { useEffect } from 'react';
 
 function Navbar() {
     const [menuOpen, setMenuOpen] = useState(false)
     const navigate = useNavigate();
+
+    useEffect(() => {
+
+    }, [])
 
     const openNavbar = () => {
         setMenuOpen(false)
@@ -24,6 +29,10 @@ function Navbar() {
     const openOrderNow = () => {
         setMenuOpen(false);
         navigate("/ordernow")
+    }
+
+    const openOrder = () => {
+        alert("Open")
     }
 
     return (
@@ -48,6 +57,7 @@ function Navbar() {
                 <li onClick={openNavbar}>Home</li>
                 <li onClick={openAbout}>About Business</li>
                 <li onClick={openQuery}>Query</li>
+                <li onClick={openOrder}><i class="fa-solid fa-cart-arrow-down"></i></li>
                 <li onClick={openOrderNow}>
                     <button className="order-btn">Order Now</button>
                 </li>

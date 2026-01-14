@@ -74,6 +74,10 @@
   transition: all 0.3s ease;
 }
 
+.fa-cart-arrow-down{
+  font-size: 22px;
+}
+
 .order-btn:hover {
   background: #ffffff;
   transform: scale(1.05);

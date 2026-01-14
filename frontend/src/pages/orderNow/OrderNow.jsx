@@ -11,7 +11,7 @@ function OrderNow() {
         phone: '',
         email: '',
         address: '',
-        notes: '',
+        note: '',
     })
 
     const handleChange = (e) => {
@@ -20,6 +20,10 @@ function OrderNow() {
 
     const handleSubmit = (e) => {
         e.preventDefault()
+        if (order.quantity < 100) {
+            alert("Quantity should be greater than 100")
+            return
+        }
         console.log('Order Submitted:', order)
         alert('✅ Order placed successfully!')
     }
