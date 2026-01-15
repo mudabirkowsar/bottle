@@ -7,7 +7,7 @@ const orderRoutes = require("./routes/orderRoutes")
 const queryRoutes = require("./routes/queryRoutes")
 
 const app = express();
-
+       
 app.use(cors())
 app.use(express.json())
 
