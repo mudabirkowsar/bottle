@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import Navbar from '../../components/navbar/Navbar'
 import Footer from '../../components/footer/Footer'
 import './OrderNow.css'
+import { placeOrder } from '../../services/orderAPI'
 
 function OrderNow() {
     const [order, setOrder] = useState({
@@ -18,14 +19,19 @@ function OrderNow() {
         setOrder({ ...order, [e.target.name]: e.target.value })
     }
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault()
         if (order.quantity < 100) {
             alert("Quantity should be greater than 100")
             return
         }
-        console.log('Order Submitted:', order)
-        alert('✅ Order placed successfully!')
+        try {
+            const res = await placeOrder(order);
+            alert(res.message);
+            alert("Order successful")
+        } catch (error) {
+            alert("Something went wrong")
+        }
     }
 
     return (
@@ -62,6 +68,7 @@ function OrderNow() {
                             type="number"
                             name="quantity"
                             placeholder="Enter quantity"
+                            value={order.quantity}
                             required
                             onChange={handleChange}
                         />
@@ -76,6 +83,7 @@ function OrderNow() {
                             type="text"
                             name="name"
                             placeholder="Your full name"
+                            value={order.name}
                             required
                             onChange={handleChange}
                         />
@@ -88,6 +96,7 @@ function OrderNow() {
                             type="tel"
                             name="phone"
                             placeholder="10-digit mobile number"
+                            value={order.phone}
                             required
                             onChange={handleChange}
                         />
@@ -100,6 +109,7 @@ function OrderNow() {
                             type="email"
                             name="email"
                             placeholder="example@email.com"
+                            value={order.email}
                             onChange={handleChange}
                         />
                     </div>
@@ -110,6 +120,7 @@ function OrderNow() {
                         <textarea
                             name="address"
                             placeholder="Complete delivery address"
+                            value={order.address}
                             required
                             onChange={handleChange}
                         />
@@ -119,8 +130,9 @@ function OrderNow() {
                     <div className="form-group">
                         <label>Additional Notes</label>
                         <textarea
-                            name="notes"
+                            name="note"
                             placeholder="Any special instructions?"
+                            value={order.note}
                             onChange={handleChange}
                         />
                     </div>
