@@ -1,31 +1,42 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import './SignupPage.css';
 import Footer from '../../../components/footer/Footer';
 import Navbar from '../../../components/navbar/Navbar';
+import { createUser } from '../../../services/userAPI';
 
 function SignupPage() {
-    const [formData, setFormData] = useState({
-        name: '',
-        email: '',
-        password: '',
-        confirmPassword: '',
-    });
+    const [name, setName] = useState("");
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const [confirmPassword, setConfirmPassword] = useState("");
 
-    const handleChange = (e) => {
-        setFormData({ ...formData, [e.target.name]: e.target.value });
-    };
+    const navigate = useNavigate();
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
 
-        if (formData.password !== formData.confirmPassword) {
-            alert('Passwords do not match');
+        if (!name || !email || !password || !confirmPassword) {
+            alert("All fields are required");
             return;
         }
 
-        console.log(formData);
-        // Signup API logic here
+        if (password !== confirmPassword) {
+            alert("Passwords do not match");
+            return;
+        }
+
+        const formData = { name, email, password };
+
+        try {
+            const res = await createUser(formData);
+            alert(res.data.token)
+            localStorage.setItem("token", res.data.token)
+            alert(res?.data?.message || "User created successfully");
+            navigate("/");
+        } catch (error) {
+            alert(error?.response?.data?.message || "Signup failed");
+        }
     };
 
     return (
@@ -45,8 +56,8 @@ function SignupPage() {
                                 type="text"
                                 name="name"
                                 placeholder="John Doe"
-                                value={formData.name}
-                                onChange={handleChange}
+                                value={name}
+                                onChange={(e) => setName(e.target.value)}
                                 required
                             />
                         </div>
@@ -57,8 +68,8 @@ function SignupPage() {
                                 type="email"
                                 name="email"
                                 placeholder="name@company.com"
-                                value={formData.email}
-                                onChange={handleChange}
+                                value={email}
+                                onChange={(e) => setEmail(e.target.value)}
                                 required
                             />
                         </div>
@@ -69,8 +80,8 @@ function SignupPage() {
                                 type="password"
                                 name="password"
                                 placeholder="Create a password"
-                                value={formData.password}
-                                onChange={handleChange}
+                                value={password}
+                                onChange={(e) => setPassword(e.target.value)}
                                 required
                             />
                         </div>
@@ -81,8 +92,8 @@ function SignupPage() {
                                 type="password"
                                 name="confirmPassword"
                                 placeholder="Re-enter password"
-                                value={formData.confirmPassword}
-                                onChange={handleChange}
+                                value={confirmPassword}
+                                onChange={(e) => setConfirmPassword(e.target.value)}
                                 required
                             />
                         </div>
