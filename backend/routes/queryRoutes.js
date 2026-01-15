@@ -1,9 +1,10 @@
 const express = require("express");
 const Query = require("../models/Query");
+const protect = require("../middleware/authMiddleware");
 
 const router = express.Router()
 
-router.post("/", async (req, res) => {
+router.post("/", protect, async (req, res) => {
     try {
         const { name, email, phone, message } = req.body
         if (!name || !email || !phone || !message) {

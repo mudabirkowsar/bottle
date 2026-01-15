@@ -1,7 +1,13 @@
 import api from "./api"
 
 export const submitQuery = async (queryData) => {
-    const response = await api.post("/query", queryData);
+    const token = localStorage.getItem("token")
+    alert(token)
+    const response = await api.post("/query", queryData, {
+        headers: {
+            Authorization: token
+        }
+    });
     return response.data
 }
 

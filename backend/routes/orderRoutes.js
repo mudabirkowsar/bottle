@@ -1,10 +1,11 @@
 const express = require("express");
 const Order = require("../models/Order");
+const protect = require("../middleware/authMiddleware");
 
 const router = express.Router();
 
 // POST: Create a new order
-router.post("/", async (req, res) => {
+router.post("/",protect, async (req, res) => {
     try {
         const { size, quantity, name, phone, email, address, note } = req.body;
 
