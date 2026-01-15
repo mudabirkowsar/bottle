@@ -2,6 +2,35 @@
   box-sizing: border-box;
 }
 
+/* MESSAGE BOX */
+.message-box {
+  padding: 12px 14px;
+  border-radius: 6px;
+  font-size: 14px;
+  margin-bottom: 18px;
+  text-align: center;
+  font-weight: 500;
+}
+
+.message-box.success {
+  background-color: #e6fcf5;
+  color: #087f5b;
+  border: 1px solid #63e6be;
+}
+
+.message-box.error {
+  background-color: #fff5f5;
+  color: #c92a2a;
+  border: 1px solid #ffa8a8;
+}
+
+/* Disable button when loading */
+.auth-btn:disabled {
+  background-color: #adb5bd;
+  cursor: not-allowed;
+}
+
+
 body {
   margin: 0;
   font-family: 'Inter', 'Segoe UI', sans-serif;

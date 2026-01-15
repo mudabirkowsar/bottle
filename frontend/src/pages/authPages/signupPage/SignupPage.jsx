@@ -11,36 +11,58 @@ function SignupPage() {
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
 
+    const [message, setMessage] = useState("");
+    const [messageType, setMessageType] = useState(""); // success | error
+    const [loading, setLoading] = useState(false);
+
     const navigate = useNavigate();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        setMessage("");
+        setMessageType("");
 
         if (!name || !email || !password || !confirmPassword) {
-            alert("All fields are required");
+            setMessage("All fields are required");
+            setMessageType("error");
             return;
         }
 
         if (password !== confirmPassword) {
-            alert("Passwords do not match");
+            setMessage("Passwords do not match");
+            setMessageType("error");
             return;
         }
 
         const formData = { name, email, password };
 
         try {
+            setLoading(true);
             const res = await createUser(formData);
-            localStorage.setItem("token", res.data.token)
-            alert(res?.data?.message || "User created successfully");
-            navigate("/");
+
+            localStorage.setItem("token", res.data.token);
+
+            setMessage(res?.data?.message || "Account created successfully");
+            setMessageType("success");
+
+            setTimeout(() => {
+                navigate("/");
+            }, 1200);
+
         } catch (error) {
-            alert(error?.response?.data?.message || "Signup failed");
+            setMessage(
+                error?.response?.data?.message || "Signup failed"
+            );
+            setMessageType("error");
+        } finally {
+            setLoading(false);
         }
     };
 
     return (
         <div>
             <Navbar />
+
             <div className="auth-wrapper">
                 <div className="auth-card">
                     <div className="brand">
@@ -48,16 +70,21 @@ function SignupPage() {
                         <p>Create your account</p>
                     </div>
 
+                    {/* MESSAGE BOX */}
+                    {message && (
+                        <div className={`message-box ${messageType}`}>
+                            {message}
+                        </div>
+                    )}
+
                     <form onSubmit={handleSubmit} className="auth-form">
                         <div className="form-group">
                             <label>Full Name</label>
                             <input
                                 type="text"
-                                name="name"
                                 placeholder="John Doe"
                                 value={name}
                                 onChange={(e) => setName(e.target.value)}
-                                required
                             />
                         </div>
 
@@ -65,11 +92,9 @@ function SignupPage() {
                             <label>Email</label>
                             <input
                                 type="email"
-                                name="email"
                                 placeholder="name@company.com"
                                 value={email}
                                 onChange={(e) => setEmail(e.target.value)}
-                                required
                             />
                         </div>
 
@@ -77,11 +102,9 @@ function SignupPage() {
                             <label>Password</label>
                             <input
                                 type="password"
-                                name="password"
                                 placeholder="Create a password"
                                 value={password}
                                 onChange={(e) => setPassword(e.target.value)}
-                                required
                             />
                         </div>
 
@@ -89,16 +112,14 @@ function SignupPage() {
                             <label>Confirm Password</label>
                             <input
                                 type="password"
-                                name="confirmPassword"
                                 placeholder="Re-enter password"
                                 value={confirmPassword}
                                 onChange={(e) => setConfirmPassword(e.target.value)}
-                                required
                             />
                         </div>
 
-                        <button type="submit" className="auth-btn">
-                            Create Account
+                        <button type="submit" className="auth-btn" disabled={loading}>
+                            {loading ? "Creating account..." : "Create Account"}
                         </button>
                     </form>
 
@@ -108,6 +129,7 @@ function SignupPage() {
                     </div>
                 </div>
             </div>
+
             <Footer />
         </div>
     );

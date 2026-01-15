@@ -11,6 +11,10 @@ function LoginPage() {
         password: '',
     });
 
+    const [message, setMessage] = useState('');
+    const [messageType, setMessageType] = useState(''); // success | error
+    const [loading, setLoading] = useState(false);
+
     const navigate = useNavigate();
 
     const handleChange = (e) => {
@@ -19,27 +23,55 @@ function LoginPage() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log(formData);
-        try {
-            const res = await loginUser(formData)
-            alert("User login")
-            localStorage.setItem("token", res.data.token);
-            navigate('/')
-        } catch (error) {
-            alert("Something went wrong")
+        setMessage('');
+        setMessageType('');
+
+        if (!formData.email || !formData.password) {
+            setMessage('All fields are required');
+            setMessageType('error');
+            return;
         }
-        // API integration here
+
+        try {
+            setLoading(true);
+            const res = await loginUser(formData);
+
+            localStorage.setItem('token', res.data.token);
+
+            setMessage('Login successful');
+            setMessageType('success');
+
+            setTimeout(() => {
+                navigate('/');
+            }, 1200);
+
+        } catch (error) {
+            setMessage(
+                error?.response?.data?.message || 'Invalid email or password'
+            );
+            setMessageType('error');
+        } finally {
+            setLoading(false);
+        }
     };
 
     return (
         <div>
             <Navbar />
+
             <div className="auth-wrapper">
                 <div className="auth-card">
                     <div className="brand">
                         <h1>AquaPure</h1>
                         <p>Pure Water. Pure Life.</p>
                     </div>
+
+                    {/* MESSAGE BOX */}
+                    {message && (
+                        <div className={`message-box ${messageType}`}>
+                            {message}
+                        </div>
+                    )}
 
                     <form onSubmit={handleSubmit} className="auth-form">
                         <div className="form-group">
@@ -50,7 +82,6 @@ function LoginPage() {
                                 placeholder="name@company.com"
                                 value={formData.email}
                                 onChange={handleChange}
-                                required
                             />
                         </div>
 
@@ -62,7 +93,6 @@ function LoginPage() {
                                 placeholder="Enter your password"
                                 value={formData.password}
                                 onChange={handleChange}
-                                required
                             />
                         </div>
 
@@ -70,8 +100,8 @@ function LoginPage() {
                             <Link to="/forgot-password">Forgot password?</Link>
                         </div>
 
-                        <button type="submit" className="auth-btn">
-                            Sign In
+                        <button type="submit" className="auth-btn" disabled={loading}>
+                            {loading ? 'Signing in...' : 'Sign In'}
                         </button>
                     </form>
 
@@ -81,6 +111,7 @@ function LoginPage() {
                     </div>
                 </div>
             </div>
+
             <Footer />
         </div>
     );
