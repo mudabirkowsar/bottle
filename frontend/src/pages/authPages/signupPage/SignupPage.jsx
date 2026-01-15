@@ -30,7 +30,6 @@ function SignupPage() {
 
         try {
             const res = await createUser(formData);
-            alert(res.data.token)
             localStorage.setItem("token", res.data.token)
             alert(res?.data?.message || "User created successfully");
             navigate("/");

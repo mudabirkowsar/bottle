@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import './LoginPage.css';
 import Navbar from '../../../components/navbar/Navbar';
 import Footer from '../../../components/footer/Footer';
+import { loginUser } from '../../../services/userAPI';
 
 function LoginPage() {
     const [formData, setFormData] = useState({
@@ -10,13 +11,23 @@ function LoginPage() {
         password: '',
     });
 
+    const navigate = useNavigate();
+
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         console.log(formData);
+        try {
+            const res = await loginUser(formData)
+            alert("User login")
+            localStorage.setItem("token", res.data.token);
+            navigate('/')
+        } catch (error) {
+            alert("Something went wrong")
+        }
         // API integration here
     };
 
