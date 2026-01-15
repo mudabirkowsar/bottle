@@ -1,8 +1,7 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import './Navbar.css'
 import { useNavigate } from 'react-router-dom'
-import { useEffect } from 'react';
-import { getOrders } from '../../services/orderAPI';
+import { getOrders } from '../../services/orderAPI'; // Ensure path is correct
 
 function Navbar() {
     const [menuOpen, setMenuOpen] = useState(false)
@@ -12,11 +11,11 @@ function Navbar() {
     const fetchData = async () => {
         try {
             const res = await getOrders();
-            if (res.data.length > 0) {
+            if (res.data && res.data.length > 0) {
                 setShowCart(true)
             }
         } catch (error) {
-            alert("Something went wrong ")
+            console.error("Error fetching cart data");
         }
     }
 
@@ -24,34 +23,19 @@ function Navbar() {
         fetchData();
     }, [])
 
-    const openNavbar = () => {
+    const handleNavigate = (path) => {
         setMenuOpen(false)
-        navigate("/")
-    }
-
-    const openAbout = () => {
-        setMenuOpen(false)
-        navigate("/aboutus")
-    }
-
-    const openQuery = () => {
-        setMenuOpen(false)
-        navigate("/query")
-    }
-
-    const openOrderNow = () => {
-        setMenuOpen(false);
-        navigate("/ordernow")
+        navigate(path)
     }
 
     const openOrder = () => {
-        alert("Open")
+        alert("Open Cart")
     }
 
     return (
         <nav className="navbar">
             {/* Logo */}
-            <div className="navbar-logo" onClick={() => navigate("/")}>
+            <div className="navbar-logo" onClick={() => handleNavigate("/")}>
                 Aqua<span>Pure</span>
             </div>
 
@@ -67,17 +51,28 @@ function Navbar() {
 
             {/* Menu */}
             <ul className={`navbar-menu ${menuOpen ? 'open' : ''}`}>
-                <li onClick={openNavbar}>Home</li>
-                <li onClick={openAbout}>About Business</li>
-                <li onClick={openQuery}>Query</li>
-                {
-                    showCart &&
-                    <li onClick={openOrder} className='viewOrder'>View Order</li>
-                    // <i class="fa-solid fa-cart-arrow-down"></i>
-                }
-                <li onClick={openOrderNow}>
-                    <button className="order-btn">Order Now</button>
+                <li className="nav-item" onClick={() => handleNavigate("/")}>
+                    Home
                 </li>
+                <li className="nav-item" onClick={() => handleNavigate("/aboutus")}>
+                    About Business
+                </li>
+                <li className="nav-item" onClick={() => handleNavigate("/query")}>
+                    Query
+                </li>
+
+                {/* Cart Icon (Optional Logic) */}
+                {/* {showCart && <li onClick={openOrder} className='nav-item'>View Order</li>} */}
+
+                {/* Buttons Container */}
+                <div className="nav-buttons">
+                    <li onClick={() => handleNavigate("/login")}>
+                        <button className="login-btn">Login</button>
+                    </li>
+                    <li onClick={() => handleNavigate("/ordernow")}>
+                        <button className="order-btn">Order Now</button>
+                    </li>
+                </div>
             </ul>
         </nav>
     )

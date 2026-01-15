@@ -1,7 +1,9 @@
 import React from 'react'
 import './PricingPage.css'
+import { useNavigate } from 'react-router-dom'
 
 function PricingPage() {
+  const navigate = useNavigate();
   return (
     <section className="pricing">
       {/* Header */}
@@ -23,7 +25,9 @@ function PricingPage() {
             <li>✔ Custom Label</li>
             <li>✔ Bulk Orders Available</li>
           </ul>
-          <button>Order Now</button>
+          <button
+            onClick={() => navigate('ordernow')}
+          >Order Now</button>
         </div>
 
         <div className="pricing-card popular">
@@ -35,7 +39,9 @@ function PricingPage() {
             <li>✔ Premium Quality</li>
             <li>✔ Custom Branding</li>
           </ul>
-          <button>Order Now</button>
+          <button
+            onClick={() => navigate('ordernow')}
+          >Order Now</button>
         </div>
 
         <div className="pricing-card">
@@ -46,7 +52,9 @@ function PricingPage() {
             <li>✔ Long-lasting Seal</li>
             <li>✔ Mineral Water</li>
           </ul>
-          <button>Order Now</button>
+          <button
+            onClick={() => navigate('ordernow')}
+          >Order Now</button>
         </div>
 
         <div className="pricing-card">
@@ -57,7 +65,9 @@ function PricingPage() {
             <li>✔ Strong Bottle</li>
             <li>✔ Safe & Hygienic</li>
           </ul>
-          <button>Order Now</button>
+          <button
+            onClick={() => navigate('ordernow')}
+          >Order Now</button>
         </div>
       </div>
     </section>
