@@ -1,8 +1,8 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Navbar from '../../components/navbar/Navbar'
 import Footer from '../../components/footer/Footer'
 import './QueryPage.css'
-import { useState } from 'react'
+import { submitQuery } from '../../services/queryAPI'
 
 function QueryPage() {
 
@@ -10,6 +10,46 @@ function QueryPage() {
     const [email, setEmail] = useState("")
     const [phone, setPhone] = useState("")
     const [message, setMessage] = useState("")
+
+    // New state for handling the status message
+    const [status, setStatus] = useState({ type: '', msg: '' }) // type: 'success' | 'error' | ''
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        setStatus({ type: '', msg: '' }); // Reset status on new submit
+
+        const formData = {
+            name,
+            email,
+            phone,
+            message
+        }
+
+        try {
+            const res = await submitQuery(formData);
+
+            // Set Success Message
+            setStatus({ type: 'success', msg: 'Message sent successfully! We will contact you soon.' });
+
+            // Clear Form
+            setName("");
+            setEmail("");
+            setPhone("");
+            setMessage("");
+
+            // Optional: Auto-hide success message after 5 seconds
+            setTimeout(() => setStatus({ type: '', msg: '' }), 5000);
+
+        } catch (error) {
+            console.error("Query Error:", error);
+            const errorMsg = error.response && error.response.data
+                ? error.response.data.message
+                : "Something went wrong. Please try again later.";
+
+            // Set Error Message
+            setStatus({ type: 'error', msg: errorMsg });
+        }
+    }
 
     return (
         <>
@@ -34,7 +74,16 @@ function QueryPage() {
                 <div className="query-form">
                     <h2>Send Us a Message</h2>
 
-                    <form>
+                    {/* --- NEW STATUS MESSAGE COMPONENT --- */}
+                    {status.msg && (
+                        <div className={`status-message ${status.type}`}>
+                            {status.type === 'success' ? <i className="fas fa-check-circle"></i> : <i className="fas fa-exclamation-circle"></i>}
+                            &nbsp; {status.msg}
+                        </div>
+                    )}
+                    {/* ------------------------------------ */}
+
+                    <form onSubmit={handleSubmit}>
                         <div className="input-group">
                             <i className="fas fa-user"></i>
                             <input
@@ -73,6 +122,7 @@ function QueryPage() {
                             <textarea
                                 placeholder="Your Message"
                                 value={message}
+                                required
                                 onChange={(e) => setMessage(e.target.value)}
                                 rows="4"></textarea>
                         </div>
