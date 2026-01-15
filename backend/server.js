@@ -5,6 +5,7 @@ require("dotenv").config();
 
 const orderRoutes = require("./routes/orderRoutes")
 const queryRoutes = require("./routes/queryRoutes")
+const userRoutes = require("./routes/userRoutes")
 
 const app = express();
 
@@ -19,6 +20,7 @@ app.get("/", (req, res) => {
 
 app.use('/api/order', orderRoutes)
 app.use('/api/query', queryRoutes)
+app.use('/api/user', userRoutes)
 
 app.listen(5000, (req, res) => {
     console.log("Server is running ")
