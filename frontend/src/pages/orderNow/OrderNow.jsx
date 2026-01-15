@@ -15,22 +15,55 @@ function OrderNow() {
         note: '',
     })
 
+    const [status, setStatus] = useState({ type: '', msg: '' })
+
+    // NEW: State to control modal visibility
+    const [showModal, setShowModal] = useState(false);
+
     const handleChange = (e) => {
         setOrder({ ...order, [e.target.name]: e.target.value })
     }
 
-    const handleSubmit = async (e) => {
+    // Step 1: User clicks "Confirm Order" -> Validates form -> Opens Modal
+    const handleFormSubmit = (e) => {
         e.preventDefault()
-        if (order.quantity < 100) {
-            alert("Quantity should be greater than 100")
+        setStatus({ type: '', msg: '' })
+
+        if (Number(order.quantity) < 100) {
+            setStatus({ type: 'error', msg: "Quantity should be greater than 100" })
             return
         }
+        setShowModal(true);
+    }
+
+    // Step 2: User clicks "Yes, Place Order" in Modal -> API Call happens
+    const confirmAndPlaceOrder = async () => {
+        setShowModal(false);
+
         try {
             const res = await placeOrder(order);
-            alert(res.message);
-            alert("Order successful")
+
+            setStatus({ type: 'success', msg: "Order placed successfully! We will contact you shortly." })
+
+            setOrder({
+                size: '500ml',
+                quantity: '',
+                name: '',
+                phone: '',
+                email: '',
+                address: '',
+                note: '',
+            })
+
+            setTimeout(() => setStatus({ type: '', msg: '' }), 5000);
+
         } catch (error) {
-            alert("Something went wrong")
+            console.error("Order Error:", error);
+            const errorMsg = error.response && error.response.data
+                ? error.response.data.message
+                : "Something went wrong. Please try again.";
+
+            setStatus({ type: 'error', msg: errorMsg })
         }
     }
 
@@ -38,18 +71,23 @@ function OrderNow() {
         <>
             <Navbar />
 
-            {/* Header */}
             <section className="order-header">
                 <h1>Place Your Order</h1>
                 <p>Pure • Safe • Custom Drinking Water</p>
             </section>
 
-            {/* Order Form */}
             <section className="order-container">
-                <form className="order-form" onSubmit={handleSubmit}>
+                {/* Changed onSubmit to handleFormSubmit */}
+                <form className="order-form" onSubmit={handleFormSubmit}>
                     <h2>Order Details</h2>
 
-                    {/* Bottle Size */}
+                    {status.msg && (
+                        <div className={`status-message ${status.type}`}>
+                            {status.type === 'success' ? <i className="fas fa-check-circle"></i> : <i className="fas fa-exclamation-circle"></i>}
+                            &nbsp; {status.msg}
+                        </div>
+                    )}
+
                     <div className="form-group">
                         <label>Bottle Size</label>
                         <select name="size" value={order.size} onChange={handleChange}>
@@ -61,7 +99,6 @@ function OrderNow() {
                         </select>
                     </div>
 
-                    {/* Quantity */}
                     <div className="form-group">
                         <label>Quantity</label>
                         <input
@@ -76,7 +113,6 @@ function OrderNow() {
 
                     <h2>Customer Details</h2>
 
-                    {/* Name */}
                     <div className="form-group">
                         <label>Full Name</label>
                         <input
@@ -89,7 +125,6 @@ function OrderNow() {
                         />
                     </div>
 
-                    {/* Phone */}
                     <div className="form-group">
                         <label>Phone Number</label>
                         <input
@@ -102,7 +137,6 @@ function OrderNow() {
                         />
                     </div>
 
-                    {/* Email */}
                     <div className="form-group">
                         <label>Email (optional)</label>
                         <input
@@ -114,7 +148,6 @@ function OrderNow() {
                         />
                     </div>
 
-                    {/* Address */}
                     <div className="form-group">
                         <label>Delivery Address</label>
                         <textarea
@@ -126,7 +159,6 @@ function OrderNow() {
                         />
                     </div>
 
-                    {/* Notes */}
                     <div className="form-group">
                         <label>Additional Notes</label>
                         <textarea
@@ -142,6 +174,33 @@ function OrderNow() {
                     </button>
                 </form>
             </section>
+
+            {/* --- MODAL POPUP --- */}
+            {showModal && (
+                <div className="modal-overlay">
+                    <div className="modal-box">
+                        <h3>Confirm Order</h3>
+                        <p>Please review your order details:</p>
+
+                        <div className="modal-summary">
+                            <p><strong>Size:</strong> {order.size}</p>
+                            <p><strong>Quantity:</strong> {order.quantity}</p>
+                            <p><strong>Name:</strong> {order.name}</p>
+                            <p><strong>Phone:</strong> {order.phone}</p>
+                            <p><strong>Address:</strong> {order.address}</p>
+                        </div>
+
+                        <div className="modal-actions">
+                            <button className="btn-cancel" onClick={() => setShowModal(false)}>
+                                Cancel
+                            </button>
+                            <button className="btn-confirm" onClick={confirmAndPlaceOrder}>
+                                Yes, Place Order
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
 
             <Footer />
         </>
