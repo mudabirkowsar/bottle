@@ -74,8 +74,18 @@
   transition: all 0.3s ease;
 }
 
-.fa-cart-arrow-down{
+.fa-cart-arrow-down {
   font-size: 22px;
+}
+
+.viewOrder {
+  padding: 5px 10px;
+  border-radius: 25px;
+  border: none;
+  background: #9d52f3;
+  font-size: 15px;
+  cursor: pointer;
+  transition: all 0.3s ease;
 }
 
 .order-btn:hover {

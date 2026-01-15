@@ -2,13 +2,26 @@ import React, { useState } from 'react'
 import './Navbar.css'
 import { useNavigate } from 'react-router-dom'
 import { useEffect } from 'react';
+import { getOrders } from '../../services/orderAPI';
 
 function Navbar() {
     const [menuOpen, setMenuOpen] = useState(false)
+    const [showCart, setShowCart] = useState(false)
     const navigate = useNavigate();
 
-    useEffect(() => {
+    const fetchData = async () => {
+        try {
+            const res = await getOrders();
+            if (res.data.length > 0) {
+                setShowCart(true)
+            }
+        } catch (error) {
+            alert("Something went wrong ")
+        }
+    }
 
+    useEffect(() => {
+        fetchData();
     }, [])
 
     const openNavbar = () => {
@@ -57,7 +70,11 @@ function Navbar() {
                 <li onClick={openNavbar}>Home</li>
                 <li onClick={openAbout}>About Business</li>
                 <li onClick={openQuery}>Query</li>
-                <li onClick={openOrder}><i class="fa-solid fa-cart-arrow-down"></i></li>
+                {
+                    showCart &&
+                    <li onClick={openOrder} className='viewOrder'>View Order</li>
+                    // <i class="fa-solid fa-cart-arrow-down"></i>
+                }
                 <li onClick={openOrderNow}>
                     <button className="order-btn">Order Now</button>
                 </li>
