@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import './Navbar.css';
 import { useNavigate } from 'react-router-dom';
 import { getOrders } from '../../services/orderAPI';
-import {jwtDecode} from "jwt-decode"
+import { jwtDecode } from "jwt-decode"
 
 function Navbar() {
     const [menuOpen, setMenuOpen] = useState(false);
@@ -101,17 +101,18 @@ function Navbar() {
                                 <button className="login-btn">Login</button>
                             </li>
                         )}
+                        {userRole == "admin" &&
+                            <>
+                                <li className="order-btn" onClick={() => handleNavigate("/admin/dashboard")}>Admin Dashboard</li>
+                            </>
+                        }
 
                         <li onClick={() => handleNavigate("/ordernow")}>
                             <button className="order-btn">Order Now</button>
                         </li>
                     </div>
 
-                    {userRole == "admin" &&
-                        <>
-                            <li onClick={() => handleNavigate("/admin-dashboard")}>Admin Dashboard</li>
-                        </>
-                    }
+
                 </ul>
             </nav>
 
