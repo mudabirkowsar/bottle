@@ -2,21 +2,34 @@ import React, { useState, useEffect } from 'react';
 import './Navbar.css';
 import { useNavigate } from 'react-router-dom';
 import { getOrders } from '../../services/orderAPI';
+import {jwtDecode} from "jwt-decode"
 
 function Navbar() {
     const [menuOpen, setMenuOpen] = useState(false);
     const [showCart, setShowCart] = useState(false);
     const [isLogin, setIsLogin] = useState(false);
     const [showLogoutConfirm, setShowLogoutConfirm] = useState(false);
+    const [userRole, setUserRole] = useState(null);
 
     const navigate = useNavigate();
 
     useEffect(() => {
         const token = localStorage.getItem("token");
-        if (token) {
+
+        if (!token) return;
+
+        try {
+            const decoded = jwtDecode(token);
+            setUserRole(decoded.role);
             setIsLogin(true);
+        } catch (error) {
+            console.error("Invalid token");
+            localStorage.removeItem("token");
+            setIsLogin(false);
+            setUserRole(null);
         }
     }, []);
+
 
     const fetchData = async () => {
         try {
@@ -93,6 +106,12 @@ function Navbar() {
                             <button className="order-btn">Order Now</button>
                         </li>
                     </div>
+
+                    {userRole == "admin" &&
+                        <>
+                            <li onClick={() => handleNavigate("/admin-dashboard")}>Admin Dashboard</li>
+                        </>
+                    }
                 </ul>
             </nav>
 

@@ -34,7 +34,12 @@ router.post('/create-user', async (req, res) => {
         await user.save();
 
         const token = jwt.sign(
-            { id: user._id },
+            { 
+                name: user.email,
+                id: user._id,
+                role: user.role,
+                email: user.email,
+            },
             process.env.JWT_SECRET,
             { expiresIn: "1d" }
         );
@@ -78,7 +83,12 @@ router.post('/login-user', async (req, res) => {
         }
 
         const token = jwt.sign(
-            { id: userMatch._id },
+            {
+                id: existedUser._id,
+                name: existedUser.name,
+                role: existedUser.role,
+                email: existedUser.email,
+            },
             process.env.JWT_SECRET,
             { expiresIn: '1d' }
         )
