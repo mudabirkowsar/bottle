@@ -1,0 +1,152 @@
+.users-page {
+    background: #f5f7fb;
+    padding: 20px;
+    min-height: 100vh;
+}
+
+/* HEADER */
+.users-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.users-header h1 {
+    font-size: 24px;
+    font-weight: 600;
+}
+
+.add-btn {
+    background: #1e88e5;
+    color: #fff;
+    border: none;
+    padding: 10px 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 500;
+}
+
+.add-btn:hover {
+    background: #1565c0;
+}
+
+/* TABLE */
+.users-table {
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.06);
+    overflow: hidden;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th,
+td {
+    padding: 14px;
+    text-align: left;
+    font-size: 14px;
+}
+
+th {
+    background: #f1f3f6;
+    font-weight: 600;
+}
+
+tbody tr:hover {
+    background: #f9fbff;
+}
+
+/* ROLE */
+.role {
+    padding: 4px 10px;
+    border-radius: 14px;
+    font-size: 12px;
+    text-transform: capitalize;
+}
+
+.role.user {
+    background: #e3f2fd;
+    color: #1565c0;
+}
+
+.role.admin {
+    background: #fce4ec;
+    color: #c2185b;
+}
+
+/* ACTION BUTTONS */
+.edit-btn {
+    background: #ffc107;
+    border: none;
+    padding: 6px 10px;
+    border-radius: 6px;
+    margin-right: 8px;
+    cursor: pointer;
+}
+
+.delete-btn {
+    background: #e53935;
+    color: #fff;
+    border: none;
+    padding: 6px 10px;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+/* MODAL */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal {
+    background: #fff;
+    padding: 24px;
+    border-radius: 12px;
+    width: 320px;
+}
+
+.modal h2 {
+    margin-bottom: 16px;
+}
+
+.modal input,
+.modal select {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 12px;
+    border-radius: 6px;
+    border: 1px solid #ddd;
+}
+
+.modal-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+}
+
+.cancel-btn {
+    background: #ccc;
+    border: none;
+    padding: 8px 14px;
+    border-radius: 6px;
+}
+
+.save-btn {
+    background: #1e88e5;
+    color: #fff;
+    border: none;
+    padding: 8px 14px;
+    border-radius: 6px;
+}

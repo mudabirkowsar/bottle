@@ -1,0 +1,110 @@
+/* PAGE */
+.queries-admin-page {
+    background: #f6f8fc;
+    padding: 20px;
+    min-height: 100vh;
+}
+
+/* HEADER */
+.queries-admin-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.queries-admin-header h1 {
+    font-size: 24px;
+    font-weight: 600;
+}
+
+.queries-count {
+    background: #e3f2fd;
+    color: #1565c0;
+    padding: 6px 12px;
+    border-radius: 16px;
+    font-size: 13px;
+}
+
+/* TABLE */
+.queries-admin-table {
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.06);
+    overflow: hidden;
+}
+
+.queries-admin-table table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.queries-admin-table th,
+.queries-admin-table td {
+    padding: 14px;
+    font-size: 14px;
+    text-align: left;
+}
+
+.queries-admin-table th {
+    background: #f1f3f6;
+    font-weight: 600;
+}
+
+.queries-admin-table tbody tr:hover {
+    background: #f9fbff;
+}
+
+/* MESSAGE */
+.query-message {
+    max-width: 320px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* STATUS */
+.query-status {
+    padding: 4px 10px;
+    border-radius: 14px;
+    font-size: 12px;
+    text-transform: capitalize;
+}
+
+.query-status.pending {
+    background: #fff3cd;
+    color: #856404;
+}
+
+.query-status.resolved {
+    background: #e8f5e9;
+    color: #2e7d32;
+}
+
+/* ACTION BUTTONS */
+.resolve-btn {
+    background: #43a047;
+    color: #fff;
+    border: none;
+    padding: 6px 10px;
+    border-radius: 6px;
+    margin-right: 8px;
+    cursor: pointer;
+}
+
+.resolve-btn:hover {
+    background: #2e7d32;
+}
+
+.delete-btn {
+    background: #e53935;
+    color: #fff;
+    border: none;
+    padding: 6px 10px;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.delete-btn:hover {
+    background: #c62828;
+}

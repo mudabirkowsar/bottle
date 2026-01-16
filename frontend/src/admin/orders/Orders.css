@@ -1,0 +1,76 @@
+/* REUSE SAME WRAPPER STYLE */
+.admin-wrapper {
+    display: flex;
+    min-height: 100vh;
+    background: #f5f7fb;
+}
+
+.admin-main {
+    flex: 1;
+    padding: 30px;
+    /* margin-left: 240px; */
+}
+
+/* HEADER */
+.page-header {
+    margin-bottom: 25px;
+}
+
+.page-header h1 {
+    font-size: 28px;
+    color: #333;
+}
+
+.page-header p {
+    color: #666;
+    margin-top: 6px;
+}
+
+/* TABLE */
+.orders-table {
+    background: #fff;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th,
+td {
+    padding: 14px;
+    text-align: left;
+    border-bottom: 1px solid #eee;
+}
+
+th {
+    background: #f2f4f8;
+    font-size: 14px;
+}
+
+/* STATUS COLORS */
+.status.success {
+    color: #2ecc71;
+    font-weight: bold;
+}
+
+.status.pending {
+    color: #f39c12;
+    font-weight: bold;
+}
+
+.status.cancel {
+    color: #e74c3c;
+    font-weight: bold;
+}
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+    .admin-main {
+        margin-left: 0;
+        padding: 20px;
+    }
+}

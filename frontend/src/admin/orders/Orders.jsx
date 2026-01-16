@@ -1,68 +1,53 @@
 import React from "react";
-import "./DashboardAdmin.css";
+import NavbarAdmin from "../NavbarAdmin";
+import "./Orders.css";
 
-function DashboardAdmin() {
+function Orders() {
     return (
         <div className="admin-wrapper">
+            {/* SIDEBAR */}
+            {/* <NavbarAdmin /> */}
+
+            {/* MAIN CONTENT */}
             <main className="admin-main">
-                {/* HEADER */}
-                <header className="dashboard-header">
-                    <h1>Dashboard</h1>
-                    <p>Welcome back, Admin 👋</p>
+                <header className="page-header">
+                    <h1>Orders</h1>
+                    <p>Manage all customer orders</p>
                 </header>
 
-                {/* STATS */}
-                <section className="stats">
-                    <div className="stat-card">
-                        <h3>Total Orders</h3>
-                        <p>124</p>
-                    </div>
-
-                    <div className="stat-card">
-                        <h3>Total Users</h3>
-                        <p>58</p>
-                    </div>
-
-                    <div className="stat-card">
-                        <h3>Total Revenue</h3>
-                        <p>₹48,900</p>
-                    </div>
-
-                    <div className="stat-card">
-                        <h3>Pending Queries</h3>
-                        <p>6</p>
-                    </div>
-                </section>
-
-                {/* RECENT ORDERS */}
-                <section className="table-section">
-                    <h2>Recent Orders</h2>
-
+                <section className="orders-table">
                     <table>
                         <thead>
                             <tr>
                                 <th>Order ID</th>
-                                <th>Name</th>
+                                <th>Customer</th>
+                                <th>Phone</th>
                                 <th>Amount</th>
                                 <th>Status</th>
                             </tr>
                         </thead>
+
                         <tbody>
                             <tr>
                                 <td>#AP1021</td>
                                 <td>Rahul Sharma</td>
+                                <td>9876543210</td>
                                 <td>₹450</td>
                                 <td className="status success">Delivered</td>
                             </tr>
+
                             <tr>
                                 <td>#AP1022</td>
                                 <td>Ayesha Khan</td>
+                                <td>9876501234</td>
                                 <td>₹300</td>
                                 <td className="status pending">Pending</td>
                             </tr>
+
                             <tr>
                                 <td>#AP1023</td>
                                 <td>Mohit Verma</td>
+                                <td>9123456789</td>
                                 <td>₹600</td>
                                 <td className="status cancel">Cancelled</td>
                             </tr>
@@ -74,4 +59,4 @@ function DashboardAdmin() {
     );
 }
 
-export default DashboardAdmin;
+export default Orders;

@@ -7,7 +7,7 @@ import QueryPage from './pages/queryPage/QueryPage'
 import OrderNow from './pages/orderNow/OrderNow'
 import LoginPage from './pages/authPages/loginPage/LoginPage'
 import SignupPage from './pages/authPages/signupPage/SignupPage'
-import DashboardAdmin from './admin/dashboard/DashboardAdmin'
+import NavbarAdmin from './admin/NavbarAdmin'
 
 function App() {
 
@@ -22,7 +22,7 @@ function App() {
         <Route path='/login' element={<LoginPage />} />
         <Route path='/signup' element={<SignupPage />} />
 
-        <Route path='/admin/dashboard' element={<DashboardAdmin />} />
+        <Route path='/admin/dashboard' element={<NavbarAdmin />} />
 
       </Routes>
     </>
