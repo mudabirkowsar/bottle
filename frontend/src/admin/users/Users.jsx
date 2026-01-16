@@ -16,26 +16,22 @@ function Users() {
         role: "user",
     });
 
-    /* OPEN ADD MODAL */
     const openAddModal = () => {
         setEditingUser(null);
         setFormData({ name: "", email: "", role: "user" });
         setShowModal(true);
     };
 
-    /* OPEN EDIT MODAL */
     const openEditModal = (user) => {
         setEditingUser(user);
         setFormData(user);
         setShowModal(true);
     };
 
-    /* HANDLE INPUT */
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
     };
 
-    /* SAVE USER */
     const handleSave = () => {
         if (editingUser) {
             setUsers(
@@ -44,15 +40,11 @@ function Users() {
                 )
             );
         } else {
-            setUsers([
-                ...users,
-                { ...formData, id: Date.now() },
-            ]);
+            setUsers([...users, { ...formData, id: Date.now() }]);
         }
         setShowModal(false);
     };
 
-    /* DELETE USER */
     const handleDelete = (id) => {
         if (window.confirm("Are you sure you want to delete this user?")) {
             setUsers(users.filter((u) => u.id !== id));
@@ -63,15 +55,15 @@ function Users() {
         <div className="users-page">
             {/* HEADER */}
             <div className="users-header">
-                <h1>Users Management</h1>
-                <button className="add-btn" onClick={openAddModal}>
+                <h1 className="users-title">Users Management</h1>
+                <button className="users-add-btn" onClick={openAddModal}>
                     + Add User
                 </button>
             </div>
 
             {/* TABLE */}
-            <div className="users-table">
-                <table>
+            <div className="users-table-wrapper">
+                <table className="users-table">
                     <thead>
                         <tr>
                             <th>Name</th>
@@ -86,18 +78,20 @@ function Users() {
                             <tr key={user.id}>
                                 <td>{user.name}</td>
                                 <td>{user.email}</td>
-                                <td className={`role ${user.role}`}>
-                                    {user.role}
-                                </td>
                                 <td>
+                                    <span className={`users-role users-role-${user.role}`}>
+                                        {user.role}
+                                    </span>
+                                </td>
+                                <td className="users-actions">
                                     <button
-                                        className="edit-btn"
+                                        className="users-edit-btn"
                                         onClick={() => openEditModal(user)}
                                     >
                                         Edit
                                     </button>
                                     <button
-                                        className="delete-btn"
+                                        className="users-delete-btn"
                                         onClick={() => handleDelete(user.id)}
                                     >
                                         Delete
@@ -111,9 +105,11 @@ function Users() {
 
             {/* MODAL */}
             {showModal && (
-                <div className="modal-overlay">
-                    <div className="modal">
-                        <h2>{editingUser ? "Edit User" : "Add User"}</h2>
+                <div className="users-modal-overlay">
+                    <div className="users-modal">
+                        <h2 className="users-modal-title">
+                            {editingUser ? "Edit User" : "Add User"}
+                        </h2>
 
                         <input
                             type="text"
@@ -121,6 +117,7 @@ function Users() {
                             placeholder="Name"
                             value={formData.name}
                             onChange={handleChange}
+                            className="users-input"
                         />
 
                         <input
@@ -129,26 +126,28 @@ function Users() {
                             placeholder="Email"
                             value={formData.email}
                             onChange={handleChange}
+                            className="users-input"
                         />
 
                         <select
                             name="role"
                             value={formData.role}
                             onChange={handleChange}
+                            className="users-select"
                         >
                             <option value="user">User</option>
                             <option value="admin">Admin</option>
                         </select>
 
-                        <div className="modal-actions">
+                        <div className="users-modal-actions">
                             <button
-                                className="cancel-btn"
+                                className="users-cancel-btn"
                                 onClick={() => setShowModal(false)}
                             >
                                 Cancel
                             </button>
                             <button
-                                className="save-btn"
+                                className="users-save-btn"
                                 onClick={handleSave}
                             >
                                 Save

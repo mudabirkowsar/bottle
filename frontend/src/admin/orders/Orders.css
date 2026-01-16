@@ -1,76 +1,105 @@
-/* REUSE SAME WRAPPER STYLE */
+/* WRAPPER */
 .admin-wrapper {
     display: flex;
     min-height: 100vh;
-    background: #f5f7fb;
+    background: #f4f6fb;
 }
 
+/* MAIN CONTENT */
 .admin-main {
     flex: 1;
-    padding: 30px;
-    /* margin-left: 240px; */
+    padding: 32px;
 }
 
 /* HEADER */
 .page-header {
-    margin-bottom: 25px;
+    margin-bottom: 30px;
 }
 
 .page-header h1 {
-    font-size: 28px;
-    color: #333;
+    font-size: 30px;
+    font-weight: 600;
+    color: #1f2937;
 }
 
 .page-header p {
-    color: #666;
+    color: #6b7280;
     margin-top: 6px;
+    font-size: 14px;
+}
+
+/* TABLE CONTAINER */
+.orders-table {
+    background: #ffffff;
+    padding: 24px;
+    border-radius: 14px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+    overflow-x: auto;
 }
 
 /* TABLE */
-.orders-table {
-    background: #fff;
-    padding: 20px;
-    border-radius: 12px;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
-}
-
 table {
     width: 100%;
     border-collapse: collapse;
+    min-width: 600px;
 }
 
 th,
 td {
-    padding: 14px;
+    padding: 16px 14px;
     text-align: left;
-    border-bottom: 1px solid #eee;
-}
-
-th {
-    background: #f2f4f8;
     font-size: 14px;
 }
 
-/* STATUS COLORS */
+th {
+    background: #f9fafb;
+    color: #374151;
+    font-weight: 600;
+    border-bottom: 2px solid #e5e7eb;
+}
+
+td {
+    border-bottom: 1px solid #e5e7eb;
+    color: #374151;
+}
+
+/* ROW HOVER */
+tbody tr:hover {
+    background: #f9fafb;
+    transition: 0.2s;
+}
+
+/* STATUS BADGES */
+.status {
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+    display: inline-block;
+}
+
 .status.success {
+    background: #eafaf1;
     color: #2ecc71;
-    font-weight: bold;
 }
 
 .status.pending {
+    background: #fff4e5;
     color: #f39c12;
-    font-weight: bold;
 }
 
 .status.cancel {
+    background: #fdecea;
     color: #e74c3c;
-    font-weight: bold;
 }
 
 /* RESPONSIVE */
 @media (max-width: 768px) {
     .admin-main {
-        margin-left: 0;
         padding: 20px;
+    }
+
+    .page-header h1 {
+        font-size: 24px;
     }
 }

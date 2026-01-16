@@ -5,10 +5,8 @@ import "./Orders.css";
 function Orders() {
     return (
         <div className="admin-wrapper">
-            {/* SIDEBAR */}
             {/* <NavbarAdmin /> */}
 
-            {/* MAIN CONTENT */}
             <main className="admin-main">
                 <header className="page-header">
                     <h1>Orders</h1>
@@ -33,7 +31,9 @@ function Orders() {
                                 <td>Rahul Sharma</td>
                                 <td>9876543210</td>
                                 <td>₹450</td>
-                                <td className="status success">Delivered</td>
+                                <td>
+                                    <span className="status success">Delivered</span>
+                                </td>
                             </tr>
 
                             <tr>
@@ -41,7 +41,9 @@ function Orders() {
                                 <td>Ayesha Khan</td>
                                 <td>9876501234</td>
                                 <td>₹300</td>
-                                <td className="status pending">Pending</td>
+                                <td>
+                                    <span className="status pending">Pending</span>
+                                </td>
                             </tr>
 
                             <tr>
@@ -49,7 +51,9 @@ function Orders() {
                                 <td>Mohit Verma</td>
                                 <td>9123456789</td>
                                 <td>₹600</td>
-                                <td className="status cancel">Cancelled</td>
+                                <td>
+                                    <span className="status cancel">Cancelled</span>
+                                </td>
                             </tr>
                         </tbody>
                     </table>
