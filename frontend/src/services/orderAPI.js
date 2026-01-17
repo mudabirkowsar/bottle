@@ -5,7 +5,7 @@ export const placeOrder = async (orderData) => {
     const token = localStorage.getItem("token")
     const response = await api.post('/order', orderData,
         {
-            headers:{
+            headers: {
                 Authorization: token
             }
         }

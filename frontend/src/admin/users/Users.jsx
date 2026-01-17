@@ -1,12 +1,30 @@
 import React, { useState } from "react";
 import "./Users.css";
+import { useEffect } from "react";
+import { getAllUsers } from "../../services/adminAPI";
 
 function Users() {
-    const [users, setUsers] = useState([
-        { id: 1, name: "Rahul Sharma", email: "rahul@gmail.com", role: "user" },
-        { id: 2, name: "Ayesha Khan", email: "ayesha@gmail.com", role: "admin" },
-        { id: 3, name: "Mohit Verma", email: "mohit@gmail.com", role: "user" },
-    ]);
+    const [users, setUsers] = useState([]);
+
+    useEffect(() => {
+        const fetchUsers = async () => {
+            try {
+                const token = localStorage.getItem("token");
+                if (!token) {
+                    alert("Login first");
+                    return;
+                }
+                const res = await getAllUsers();
+                setUsers(res.data.data)
+
+            } catch (error) {
+                console.error(error);
+            }
+        };
+
+        fetchUsers();
+    }, []);
+
 
     const [showModal, setShowModal] = useState(false);
     const [editingUser, setEditingUser] = useState(null);
