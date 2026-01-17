@@ -16,33 +16,34 @@ function OrderNow() {
     })
 
     const [status, setStatus] = useState({ type: '', msg: '' })
-    const [showModal, setShowModal] = useState(false)
+
+    // NEW: State to control modal visibility
+    const [showModal, setShowModal] = useState(false);
 
     const handleChange = (e) => {
         setOrder({ ...order, [e.target.name]: e.target.value })
     }
 
+    // Step 1: User clicks "Confirm Order" -> Validates form -> Opens Modal
     const handleFormSubmit = (e) => {
         e.preventDefault()
         setStatus({ type: '', msg: '' })
 
         if (Number(order.quantity) < 100) {
-            setStatus({ type: 'error', msg: 'Quantity should be greater than 100' })
+            setStatus({ type: 'error', msg: "Quantity should be greater than 100" })
             return
         }
-        setShowModal(true)
+        setShowModal(true);
     }
 
+    // Step 2: User clicks "Yes, Place Order" in Modal -> API Call happens
     const confirmAndPlaceOrder = async () => {
-        setShowModal(false)
+        setShowModal(false);
 
         try {
-            await placeOrder(order)
+            const res = await placeOrder(order);
 
-            setStatus({
-                type: 'success',
-                msg: 'Order placed successfully! We will contact you shortly.',
-            })
+            setStatus({ type: 'success', msg: "Order placed successfully! We will contact you shortly." })
 
             setOrder({
                 size: '500ml',
@@ -54,46 +55,42 @@ function OrderNow() {
                 note: '',
             })
 
-            setTimeout(() => setStatus({ type: '', msg: '' }), 5000)
+            setTimeout(() => setStatus({ type: '', msg: '' }), 5000);
+
         } catch (error) {
-            const errorMsg =
-                error.response && error.response.data
-                    ? error.response.data.message
-                    : 'Something went wrong. Please try again.'
+            console.error("Order Error:", error);
+            const errorMsg = error.response && error.response.data
+                ? error.response.data.message
+                : "Something went wrong. Please try again.";
 
             setStatus({ type: 'error', msg: errorMsg })
         }
     }
 
     return (
-        <div className="on-wrapper">
+        <>
             <Navbar />
 
-            {/* HEADER */}
-            <section className="on-header">
+            <section className="order-header">
                 <h1>Place Your Order</h1>
                 <p>Pure • Safe • Custom Drinking Water</p>
             </section>
 
-            {/* FORM */}
-            <section className="on-container">
-                <form className="on-form" onSubmit={handleFormSubmit}>
+            <section className="order-container">
+                {/* Changed onSubmit to handleFormSubmit */}
+                <form className="order-form" onSubmit={handleFormSubmit}>
                     <h2>Order Details</h2>
 
                     {status.msg && (
-                        <div className={`on-status ${status.type}`}>
-                            {status.msg}
+                        <div className={`status-message ${status.type}`}>
+                            {status.type === 'success' ? <i className="fas fa-check-circle"></i> : <i className="fas fa-exclamation-circle"></i>}
+                            &nbsp; {status.msg}
                         </div>
                     )}
 
-                    <div className="on-group">
+                    <div className="form-group">
                         <label>Bottle Size</label>
-                        <select
-                            className="on-select"
-                            name="size"
-                            value={order.size}
-                            onChange={handleChange}
-                        >
+                        <select name="size" value={order.size} onChange={handleChange}>
                             <option value="200ml">200 ml</option>
                             <option value="500ml">500 ml</option>
                             <option value="1L">1 L</option>
@@ -102,10 +99,9 @@ function OrderNow() {
                         </select>
                     </div>
 
-                    <div className="on-group">
+                    <div className="form-group">
                         <label>Quantity</label>
                         <input
-                            className="on-input"
                             type="number"
                             name="quantity"
                             placeholder="Enter quantity"
@@ -117,10 +113,9 @@ function OrderNow() {
 
                     <h2>Customer Details</h2>
 
-                    <div className="on-group">
+                    <div className="form-group">
                         <label>Full Name</label>
                         <input
-                            className="on-input"
                             type="text"
                             name="name"
                             placeholder="Your full name"
@@ -130,10 +125,9 @@ function OrderNow() {
                         />
                     </div>
 
-                    <div className="on-group">
+                    <div className="form-group">
                         <label>Phone Number</label>
                         <input
-                            className="on-input"
                             type="tel"
                             name="phone"
                             placeholder="10-digit mobile number"
@@ -143,10 +137,9 @@ function OrderNow() {
                         />
                     </div>
 
-                    <div className="on-group">
+                    <div className="form-group">
                         <label>Email (optional)</label>
                         <input
-                            className="on-input"
                             type="email"
                             name="email"
                             placeholder="example@email.com"
@@ -155,10 +148,9 @@ function OrderNow() {
                         />
                     </div>
 
-                    <div className="on-group">
+                    <div className="form-group">
                         <label>Delivery Address</label>
                         <textarea
-                            className="on-textarea"
                             name="address"
                             placeholder="Complete delivery address"
                             value={order.address}
@@ -167,10 +159,9 @@ function OrderNow() {
                         />
                     </div>
 
-                    <div className="on-group">
+                    <div className="form-group">
                         <label>Additional Notes</label>
                         <textarea
-                            className="on-textarea"
                             name="note"
                             placeholder="Any special instructions?"
                             value={order.note}
@@ -178,20 +169,20 @@ function OrderNow() {
                         />
                     </div>
 
-                    <button type="submit" className="on-submit">
+                    <button type="submit" className="order-btnn">
                         Confirm Order
                     </button>
                 </form>
             </section>
 
-            {/* MODAL */}
+            {/* --- MODAL POPUP --- */}
             {showModal && (
-                <div className="on-modal-overlay">
-                    <div className="on-modal">
+                <div className="modal-overlay">
+                    <div className="modal-box">
                         <h3>Confirm Order</h3>
                         <p>Please review your order details:</p>
 
-                        <div className="on-modal-summary">
+                        <div className="modal-summary">
                             <p><strong>Size:</strong> {order.size}</p>
                             <p><strong>Quantity:</strong> {order.quantity}</p>
                             <p><strong>Name:</strong> {order.name}</p>
@@ -199,19 +190,11 @@ function OrderNow() {
                             <p><strong>Address:</strong> {order.address}</p>
                         </div>
 
-                        <div className="on-modal-actions">
-                            <button
-                                type="button"
-                                className="on-cancel"
-                                onClick={() => setShowModal(false)}
-                            >
+                        <div className="modal-actions">
+                            <button className="btn-cancel" onClick={() => setShowModal(false)}>
                                 Cancel
                             </button>
-                            <button
-                                type="button"
-                                className="on-confirm"
-                                onClick={confirmAndPlaceOrder}
-                            >
+                            <button className="btn-confirm" onClick={confirmAndPlaceOrder}>
                                 Yes, Place Order
                             </button>
                         </div>
@@ -220,7 +203,7 @@ function OrderNow() {
             )}
 
             <Footer />
-        </div>
+        </>
     )
 }
 

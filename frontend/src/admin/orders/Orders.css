@@ -5,6 +5,48 @@
     background: #f4f6fb;
 }
 
+/* VIEW STATUS BADGE */
+.view-status {
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.view-status.viewed {
+    background: #eafaf1;
+    color: #2ecc71;
+}
+
+.view-status.not_viewed {
+    background: #fff4e5;
+    color: #f39c12;
+}
+
+/* ACTION BUTTON */
+.view-btn {
+    padding: 8px 14px;
+    border-radius: 8px;
+    border: none;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    background: #2563eb;
+    color: #ffffff;
+    transition: 0.2s ease;
+}
+
+.view-btn:hover {
+    background: #1e40af;
+}
+
+.view-btn:disabled {
+    background: #d1d5db;
+    color: #6b7280;
+    cursor: not-allowed;
+}
+
+
 /* MAIN CONTENT */
 .admin-main {
     flex: 1;
@@ -68,6 +110,32 @@ tbody tr:hover {
     background: #f9fafb;
     transition: 0.2s;
 }
+
+/* LONG TEXT HANDLING */
+.address-cell,
+.note-cell {
+    max-width: 220px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* STATUS COLORS */
+.status.delivered {
+    background: #eafaf1;
+    color: #2ecc71;
+}
+
+.status.pending {
+    background: #fff4e5;
+    color: #f39c12;
+}
+
+.status.cancelled {
+    background: #fdecea;
+    color: #e74c3c;
+}
+
 
 /* STATUS BADGES */
 .status {
