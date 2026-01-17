@@ -29,3 +29,13 @@ export const getALlOrders = () => {
     })
     return response
 }
+
+
+export const updateOrderStatus = (id, status) => {
+    const response = api.put(`/admin/update-status/${id}`, { status }, {
+        headers: {
+            Authorization: token
+        }
+    })
+    return response
+}

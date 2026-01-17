@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import "./Orders.css";
 import { useEffect } from "react";
-import { getALlOrders } from "../../services/adminAPI";
+import { getALlOrders, updateOrderStatus } from "../../services/adminAPI";
+import axios from 'axios';
 
 function Orders() {
 
@@ -24,7 +25,7 @@ function Orders() {
         fetchAllOrders()
     }, [])
 
-    const updateStatus = (id, newStatus) => {
+    const updateStatus = async (id, newStatus) => {
         setOrders(prev =>
             prev.map(order =>
                 order._id === id
@@ -33,8 +34,7 @@ function Orders() {
             )
         );
 
-        // 👉 Future API
-        // axios.put(`/api/orders/${id}/status`, { status: newStatus })
+        const res = await updateOrderStatus(id, newStatus);
     };
 
     const getStatusLabel = (status) => {
@@ -55,7 +55,7 @@ function Orders() {
                     <table>
                         <thead>
                             <tr>
-                                <th>Order ID</th>
+                                {/* <th>Order ID</th> */}
                                 <th>Customer</th>
                                 <th>Phone</th>
                                 <th>Size</th>
@@ -70,7 +70,7 @@ function Orders() {
                         <tbody>
                             {orders.map(order => (
                                 <tr key={order._id}>
-                                    <td>#{order._id}</td>
+                                    {/* <td>#{order._id}</td> */}
                                     <td>{order.name}</td>
                                     <td>{order.phone}</td>
                                     <td>{order.size}</td>
