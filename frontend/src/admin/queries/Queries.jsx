@@ -1,50 +1,56 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./Queries.css";
+import { getAllQueries } from "../../services/adminAPI";
 
 function Queries() {
-    const [queries, setQueries] = useState([
-        {
-            id: 1,
-            name: "Rahul Sharma",
-            email: "rahul@gmail.com",
-            message: "What is the delivery time?",
-            status: "pending",
-        },
-        {
-            id: 2,
-            name: "Ayesha Khan",
-            email: "ayesha@gmail.com",
-            message: "Do you provide bulk orders?",
-            status: "resolved",
-        },
-        {
-            id: 3,
-            name: "Mohit Verma",
-            email: "mohit@gmail.com",
-            message: "How to change delivery address?",
-            status: "pending",
-        },
-    ]);
+    const [queries, setQueries] = useState([]);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        const fetchQueries = async () => {
+            try {
+                const res = await getAllQueries()
+                setQueries(res.data.data);
+            } catch (error) {
+                console.error(error);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchQueries();
+    }, []);
 
     /* MARK AS RESOLVED */
-    const markResolved = (id) => {
-        setQueries(
-            queries.map((q) =>
-                q.id === id ? { ...q, status: "resolved" } : q
-            )
-        );
-    };
+    // const markResolved = async (id) => {
+    //     try {
+    //         await api.put(`/admin/queries/${id}/resolve`);
+    //         setQueries((prev) =>
+    //             prev.map((q) =>
+    //                 q._id === id ? { ...q, status: "resolved" } : q
+    //             )
+    //         );
+    //     } catch (error) {
+    //         console.error(error);
+    //     }
+    // };
 
     /* DELETE QUERY */
-    const deleteQuery = (id) => {
-        if (window.confirm("Delete this query?")) {
-            setQueries(queries.filter((q) => q.id !== id));
-        }
-    };
+    // const deleteQuery = async (id) => {
+    //     if (!window.confirm("Delete this query?")) return;
+
+    //     try {
+    //         await api.delete(`/admin/queries/${id}`);
+    //         setQueries((prev) => prev.filter((q) => q._id !== id));
+    //     } catch (error) {
+    //         console.error(error);
+    //     }
+    // };
+
+    if (loading) return <p>Loading queries...</p>;
 
     return (
         <div className="queries-admin-page">
-            {/* HEADER */}
             <div className="queries-admin-header">
                 <h1>Customer Queries</h1>
                 <span className="queries-count">
@@ -52,13 +58,13 @@ function Queries() {
                 </span>
             </div>
 
-            {/* TABLE */}
             <div className="queries-admin-table">
                 <table>
                     <thead>
                         <tr>
                             <th>Name</th>
                             <th>Email</th>
+                            <th>Phone</th>
                             <th>Message</th>
                             <th>Status</th>
                             <th>Actions</th>
@@ -67,9 +73,10 @@ function Queries() {
 
                     <tbody>
                         {queries.map((query) => (
-                            <tr key={query.id}>
+                            <tr key={query._id}>
                                 <td>{query.name}</td>
                                 <td>{query.email}</td>
+                                <td>{query.phone}</td>
                                 <td className="query-message">
                                     {query.message}
                                 </td>
@@ -85,7 +92,7 @@ function Queries() {
                                         <button
                                             className="resolve-btn"
                                             onClick={() =>
-                                                markResolved(query.id)
+                                                markResolved(query._id)
                                             }
                                         >
                                             Resolve
@@ -94,7 +101,7 @@ function Queries() {
                                     <button
                                         className="delete-btn"
                                         onClick={() =>
-                                            deleteQuery(query.id)
+                                            deleteQuery(query._id)
                                         }
                                     >
                                         Delete

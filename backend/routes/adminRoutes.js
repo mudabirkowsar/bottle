@@ -9,13 +9,6 @@ router.get("/all-users", protect, async (req, res) => {
     try {
         const allUsers = await User.find();
 
-        if (allUsers.length === 0) {
-            return res.status(200).json({
-                message: "No users found",
-                allUsers: []
-            });
-        }
-
         res.status(200).json({
             message: "Users found",
             data: allUsers
@@ -32,13 +25,6 @@ router.get("/all-users", protect, async (req, res) => {
 router.get('/all-queries', protect, async (req, res) => {
     try {
         const allQueries = await Query.find();
-
-        if (allQueries.length == 0) {
-            return res.status(200).json({
-                message: "No users found",
-                allUsers: []
-            });
-        }
 
         res.status(200).json({
             message: "Queries Found",
