@@ -3,8 +3,8 @@ import "./DashboardAdmin.css";
 
 function DashboardAdmin() {
     return (
-        <div className="admin-wrapper">
-            <main className="admin-main">
+        <div className="dashboard-wrapper">
+            <main className="dashboard-main">
                 {/* HEADER */}
                 <header className="dashboard-header">
                     <h1>Dashboard</h1>
@@ -12,33 +12,33 @@ function DashboardAdmin() {
                 </header>
 
                 {/* STATS */}
-                <section className="stats">
-                    <div className="stat-card">
+                <section className="dashboard-stats">
+                    <div className="dashboard-stat-card">
                         <h3>Total Orders</h3>
                         <p>124</p>
                     </div>
 
-                    <div className="stat-card">
+                    <div className="dashboard-stat-card">
                         <h3>Total Users</h3>
                         <p>58</p>
                     </div>
 
-                    <div className="stat-card">
+                    <div className="dashboard-stat-card">
                         <h3>Total Revenue</h3>
                         <p>₹48,900</p>
                     </div>
 
-                    <div className="stat-card">
+                    <div className="dashboard-stat-card">
                         <h3>Pending Queries</h3>
                         <p>6</p>
                     </div>
                 </section>
 
                 {/* RECENT ORDERS */}
-                <section className="table-section">
+                <section className="dashboard-table-section">
                     <h2>Recent Orders</h2>
 
-                    <table>
+                    <table className="dashboard-table">
                         <thead>
                             <tr>
                                 <th>Order ID</th>
@@ -52,19 +52,31 @@ function DashboardAdmin() {
                                 <td>#AP1021</td>
                                 <td>Rahul Sharma</td>
                                 <td>₹450</td>
-                                <td className="status success">Delivered</td>
+                                <td>
+                                    <span className="dashboard-status dashboard-success">
+                                        Delivered
+                                    </span>
+                                </td>
                             </tr>
                             <tr>
                                 <td>#AP1022</td>
                                 <td>Ayesha Khan</td>
                                 <td>₹300</td>
-                                <td className="status pending">Pending</td>
+                                <td>
+                                    <span className="dashboard-status dashboard-pending">
+                                        Pending
+                                    </span>
+                                </td>
                             </tr>
                             <tr>
                                 <td>#AP1023</td>
                                 <td>Mohit Verma</td>
                                 <td>₹600</td>
-                                <td className="status cancel">Cancelled</td>
+                                <td>
+                                    <span className="dashboard-status dashboard-cancel">
+                                        Cancelled
+                                    </span>
+                                </td>
                             </tr>
                         </tbody>
                     </table>
