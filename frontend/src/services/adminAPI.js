@@ -20,3 +20,12 @@ export const getAllQueries = () => {
     })
     return response
 }
+
+export const getALlOrders = () => {
+    const response = api.get('/admin/all-orders', {
+        headers: {
+            Authorization: token
+        }
+    })
+    return response
+}

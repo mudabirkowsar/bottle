@@ -1,43 +1,28 @@
 import React, { useState } from "react";
 import "./Orders.css";
+import { useEffect } from "react";
+import { getALlOrders } from "../../services/adminAPI";
 
 function Orders() {
 
-    const [orders, setOrders] = useState([
-        {
-            _id: "AP1021",
-            name: "Rahul Sharma",
-            phone: "9876543210",
-            email: "rahul@gmail.com",
-            size: "500ml",
-            quantity: "200",
-            address: "Delhi, India",
-            note: "Deliver in morning",
-            status: "not_viewed",
-        },
-        {
-            _id: "AP1022",
-            name: "Ayesha Khan",
-            phone: "9876501234",
-            email: "ayesha@gmail.com",
-            size: "1L",
-            quantity: "150",
-            address: "Mumbai, India",
-            note: "Call before delivery",
-            status: "viewed",
-        },
-        {
-            _id: "AP1023",
-            name: "Mohit Verma",
-            phone: "9123456789",
-            email: "mohit@gmail.com",
-            size: "20L",
-            quantity: "50",
-            address: "Pune, India",
-            note: "Office delivery",
-            status: "delivered",
-        },
-    ]);
+    const [orders, setOrders] = useState([]);
+
+    useEffect(() => {
+        const fetchAllOrders = async () => {
+            try {
+                const token = localStorage.getItem("token")
+                if (!token) {
+                    alert("Login first")
+                    return
+                }
+                const res = await getALlOrders();
+                setOrders(res.data.data)
+            } catch (error) {
+                console.log("Something went wrong")
+            }
+        }
+        fetchAllOrders()
+    }, [])
 
     const updateStatus = (id, newStatus) => {
         setOrders(prev =>

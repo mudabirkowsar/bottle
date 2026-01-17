@@ -2,9 +2,11 @@ const express = require("express");
 const User = require("../models/User");
 const Query = require("../models/Query");
 const protect = require("../middleware/authMiddleware");
+const Order = require("../models/Order");
 
 const router = express.Router();
 
+// Get all users for admin
 router.get("/all-users", protect, async (req, res) => {
     try {
         const allUsers = await User.find();
@@ -22,6 +24,7 @@ router.get("/all-users", protect, async (req, res) => {
     }
 });
 
+// Get all Queries for admin 
 router.get('/all-queries', protect, async (req, res) => {
     try {
         const allQueries = await Query.find();
@@ -37,5 +40,25 @@ router.get('/all-queries', protect, async (req, res) => {
         });
     }
 })
+
+
+// Get all Orders for Admin 
+router.get('/all-orders', protect, async (req, res) => {
+    try {
+        const allOrders = await Order.find();
+
+        res.status(200).json({
+            message: "Orders Found",
+            data: allOrders
+        })
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({
+            message: "Internal server error"
+        });
+    }
+})
+
+
 
 module.exports = router;
