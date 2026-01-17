@@ -34,6 +34,12 @@ const orderSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
+
+    status: {
+        type: String,
+        enum: ['not_viewed', 'viewed', 'delivered'],
+        default: 'not_viewed'
+    }
 })
 
 module.exports = mongoose.model("Order", orderSchema)

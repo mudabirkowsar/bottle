@@ -13,7 +13,7 @@ function Orders() {
             quantity: "200",
             address: "Delhi, India",
             note: "Deliver in morning",
-            viewStatus: "not_viewed",
+            status: "not_viewed",
         },
         {
             _id: "AP1022",
@@ -24,7 +24,7 @@ function Orders() {
             quantity: "150",
             address: "Mumbai, India",
             note: "Call before delivery",
-            viewStatus: "viewed",
+            status: "viewed",
         },
         {
             _id: "AP1023",
@@ -35,22 +35,27 @@ function Orders() {
             quantity: "50",
             address: "Pune, India",
             note: "Office delivery",
-            viewStatus: "not_viewed",
+            status: "delivered",
         },
     ]);
 
-    // MARK ORDER AS VIEWED
-    const markAsViewed = (id) => {
+    const updateStatus = (id, newStatus) => {
         setOrders(prev =>
             prev.map(order =>
                 order._id === id
-                    ? { ...order, viewStatus: "viewed" }
+                    ? { ...order, status: newStatus }
                     : order
             )
         );
 
-        // 👉 Later API call
-        // axios.put(`/api/orders/${id}/viewed`)
+        // 👉 Future API
+        // axios.put(`/api/orders/${id}/status`, { status: newStatus })
+    };
+
+    const getStatusLabel = (status) => {
+        if (status === "not_viewed") return "Not Viewed";
+        if (status === "viewed") return "Viewed";
+        if (status === "delivered") return "Delivered";
     };
 
     return (
@@ -58,7 +63,7 @@ function Orders() {
             <main className="admin-main">
                 <header className="page-header">
                     <h1>Orders</h1>
-                    <p>Manage customer order visibility</p>
+                    <p>Manage customer order status</p>
                 </header>
 
                 <section className="orders-table">
@@ -72,7 +77,7 @@ function Orders() {
                                 <th>Qty</th>
                                 <th>Address</th>
                                 <th>Note</th>
-                                <th>View Status</th>
+                                <th>Status</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
@@ -89,23 +94,33 @@ function Orders() {
                                     <td className="note-cell">{order.note}</td>
 
                                     <td>
-                                        <span className={`view-status ${order.viewStatus}`}>
-                                            {order.viewStatus === "viewed"
-                                                ? "Viewed"
-                                                : "Not Viewed"}
+                                        <span className={`status-badge ${order.status}`}>
+                                            {getStatusLabel(order.status)}
                                         </span>
                                     </td>
 
-                                    <td>
-                                        <button
-                                            className="view-btn"
-                                            disabled={order.viewStatus === "viewed"}
-                                            onClick={() => markAsViewed(order._id)}
-                                        >
-                                            {order.viewStatus === "viewed"
-                                                ? "Viewed"
-                                                : "Mark as Viewed"}
-                                        </button>
+                                    <td className="action-buttons">
+                                        {order.status === "not_viewed" && (
+                                            <button
+                                                className="view-btn"
+                                                onClick={() => updateStatus(order._id, "viewed")}
+                                            >
+                                                Mark Viewed
+                                            </button>
+                                        )}
+
+                                        {order.status === "viewed" && (
+                                            <button
+                                                className="deliver-btn"
+                                                onClick={() => updateStatus(order._id, "delivered")}
+                                            >
+                                                Mark Delivered
+                                            </button>
+                                        )}
+
+                                        {order.status === "delivered" && (
+                                            <span className="done-text">Completed</span>
+                                        )}
                                     </td>
                                 </tr>
                             ))}

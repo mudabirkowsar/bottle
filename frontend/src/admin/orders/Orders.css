@@ -161,6 +161,83 @@ tbody tr:hover {
     color: #e74c3c;
 }
 
+/* ===== ORDER STATUS BADGES (NEW FLOW) ===== */
+
+.status-badge {
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+    display: inline-block;
+}
+
+/* Not Viewed */
+.status-badge.not_viewed {
+    background: #fff4e5;
+    color: #f59e0b;
+}
+
+/* Viewed */
+.status-badge.viewed {
+    background: #e0f2fe;
+    color: #0284c7;
+}
+
+/* Delivered */
+.status-badge.delivered {
+    background: #ecfdf5;
+    color: #16a34a;
+}
+
+/* ===== ACTION BUTTONS ===== */
+
+.action-buttons {
+    display: flex;
+    gap: 8px;
+}
+
+/* Mark Viewed Button */
+.view-btn {
+    background: #2563eb;
+    color: #ffffff;
+    border: none;
+    padding: 8px 14px;
+    border-radius: 8px;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.2s ease;
+}
+
+.view-btn:hover {
+    background: #1e40af;
+}
+
+/* Mark Delivered Button */
+.deliver-btn {
+    background: #16a34a;
+    color: #ffffff;
+    border: none;
+    padding: 8px 14px;
+    border-radius: 8px;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.2s ease;
+}
+
+.deliver-btn:hover {
+    background: #15803d;
+}
+
+/* Completed Text */
+.done-text {
+    font-size: 12px;
+    font-weight: 600;
+    color: #16a34a;
+}
+
+
 /* RESPONSIVE */
 @media (max-width: 768px) {
     .admin-main {
