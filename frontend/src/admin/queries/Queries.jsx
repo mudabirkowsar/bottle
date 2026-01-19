@@ -18,6 +18,9 @@ function Queries() {
     const [showResolveModal, setShowResolveModal] = useState(false);
     const [selectedResolveQuery, setSelectedResolveQuery] = useState(null);
 
+    /* LOADING STATE FOR EMAIL */
+    const [isSending, setIsSending] = useState(false);
+
     /* FETCH QUERIES */
     useEffect(() => {
         const fetchQueries = async () => {
@@ -43,6 +46,8 @@ function Queries() {
     /* CONFIRM RESOLVE + SEND MAIL */
     const handleResolveConfirm = async () => {
         try {
+            setIsSending(true);
+
             await updateQueryStatus(
                 selectedResolveQuery._id,
                 "resolved"
@@ -58,6 +63,7 @@ function Queries() {
         } catch (error) {
             console.error(error);
         } finally {
+            setIsSending(false);
             setShowResolveModal(false);
             setSelectedResolveQuery(null);
         }
@@ -161,7 +167,7 @@ function Queries() {
                             query and send an email to:
                         </p>
                         <strong>
-                            {selectedResolveQuery.email}
+                            {selectedResolveQuery?.email}
                         </strong>
 
                         <div className="resolve-modal-actions">
@@ -170,14 +176,24 @@ function Queries() {
                                 onClick={() =>
                                     setShowResolveModal(false)
                                 }
+                                disabled={isSending}
                             >
                                 Cancel
                             </button>
+
                             <button
                                 className="resolve-confirm-btn"
                                 onClick={handleResolveConfirm}
+                                disabled={isSending}
                             >
-                                Send Mail & Resolve
+                                {isSending ? (
+                                    <>
+                                        <span className="btn-spinner" />
+                                        Sending...
+                                    </>
+                                ) : (
+                                    "Send Mail & Resolve"
+                                )}
                             </button>
                         </div>
                     </div>
