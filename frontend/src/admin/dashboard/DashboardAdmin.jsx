@@ -2,37 +2,43 @@ import React, { useState } from "react";
 import "./DashboardAdmin.css";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { getAllUsers } from "../../services/adminAPI";
+import { getALlOrders, getAllUsers } from "../../services/adminAPI";
 
 function DashboardAdmin() {
 
     const [users, setUsers] = useState([])
+    const [orders, setOrders] = useState([])
     const navigate = useNavigate()
 
     useEffect(() => {
         const token = localStorage.getItem("token")
         if (!token) {
-
             navigate("http://localhost:5173/login")
             return
         }
     }, [])
 
-    useEffect(() => {
-        const fetchUsers = async () => {
-            try {
-                const token = localStorage.getItem("token");
-                if (!token) {
-                    alert("Login first");
-                    return;
-                }
-                const res = await getAllUsers();
-                console.log(res)
-                setUsers(res.data.data)
-            } catch (error) {
-                console.log("Error In fetching users ")
-            }
+    const fetchOrders = async () => {
+        try {
+            const res = await getALlOrders();
+            console.log(res)
+            setOrders(res.data.data)
+        } catch (error) {
+            alert("Error in fetching orders ")
         }
+    }
+    const fetchUsers = async () => {
+        try {
+            const res = await getAllUsers();
+            console.log(res)
+            setUsers(res.data.data)
+        } catch (error) {
+            console.log("Error In fetching users ")
+        }
+    }
+
+    useEffect(() => {
+        fetchOrders()
         fetchUsers()
     }, [])
     return (
@@ -48,7 +54,7 @@ function DashboardAdmin() {
                 <section className="dashboard-stats">
                     <div className="dashboard-stat-card">
                         <h3>Total Orders</h3>
-                        <p>124</p>
+                        <p>{orders.length}</p>
                     </div>
 
                     <div className="dashboard-stat-card">
@@ -81,36 +87,20 @@ function DashboardAdmin() {
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>#AP1021</td>
-                                <td>Rahul Sharma</td>
-                                <td>₹450</td>
-                                <td>
-                                    <span className="dashboard-status dashboard-success">
-                                        Delivered
-                                    </span>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>#AP1022</td>
-                                <td>Ayesha Khan</td>
-                                <td>₹300</td>
-                                <td>
-                                    <span className="dashboard-status dashboard-pending">
-                                        Pending
-                                    </span>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>#AP1023</td>
-                                <td>Mohit Verma</td>
-                                <td>₹600</td>
-                                <td>
-                                    <span className="dashboard-status dashboard-cancel">
-                                        Cancelled
-                                    </span>
-                                </td>
-                            </tr>
+                            {
+                                orders.map((order) => (
+                                    <tr>
+                                        <td>#{order.id}</td>
+                                        <td>{order.name}</td>
+                                        <td>₹450</td>
+                                        <td>
+                                            <span className="dashboard-status dashboard-success">
+                                                {order.status}
+                                            </span>
+                                        </td>
+                                    </tr>
+                                ))
+                            }
                         </tbody>
                     </table>
                 </section>
