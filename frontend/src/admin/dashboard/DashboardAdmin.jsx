@@ -1,17 +1,39 @@
-import React from "react";
+import React, { useState } from "react";
 import "./DashboardAdmin.css";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { getAllUsers } from "../../services/adminAPI";
 
 function DashboardAdmin() {
+
+    const [users, setUsers] = useState([])
     const navigate = useNavigate()
+
     useEffect(() => {
         const token = localStorage.getItem("token")
-        if(!token){
+        if (!token) {
 
             navigate("http://localhost:5173/login")
             return
         }
+    }, [])
+
+    useEffect(() => {
+        const fetchUsers = async () => {
+            try {
+                const token = localStorage.getItem("token");
+                if (!token) {
+                    alert("Login first");
+                    return;
+                }
+                const res = await getAllUsers();
+                console.log(res)
+                setUsers(res.data.data)
+            } catch (error) {
+                console.log("Error In fetching users ")
+            }
+        }
+        fetchUsers()
     }, [])
     return (
         <div className="dashboard-wrapper">
@@ -31,7 +53,7 @@ function DashboardAdmin() {
 
                     <div className="dashboard-stat-card">
                         <h3>Total Users</h3>
-                        <p>58</p>
+                        <p>{users.length}</p>
                     </div>
 
                     <div className="dashboard-stat-card">
