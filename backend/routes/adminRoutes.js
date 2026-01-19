@@ -28,10 +28,14 @@ router.get("/all-users", protect, async (req, res) => {
 router.get('/all-queries', protect, async (req, res) => {
     try {
         const allQueries = await Query.find();
+        const pendingQueries = allQueries.filter(
+            (q) => q.status === "pending"
+        );
 
         res.status(200).json({
             message: "Queries Found",
-            data: allQueries
+            data: allQueries,
+            pending: pendingQueries
         })
     } catch (error) {
         console.error(error);

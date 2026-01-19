@@ -2,12 +2,13 @@ import React, { useState } from "react";
 import "./DashboardAdmin.css";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { getALlOrders, getAllUsers } from "../../services/adminAPI";
+import { getALlOrders, getAllQueries, getAllUsers } from "../../services/adminAPI";
 
 function DashboardAdmin() {
 
     const [users, setUsers] = useState([])
     const [orders, setOrders] = useState([])
+    const [pendingQueries, setPendingQueries] = useState([])
     const navigate = useNavigate()
 
     useEffect(() => {
@@ -34,10 +35,20 @@ function DashboardAdmin() {
             console.log("Error In fetching users ")
         }
     }
+    const fetchPendingQueries = async () => {
+        try {
+            const res = await getAllQueries();
+            setPendingQueries(res.data.pending)
+            console.log(res)
+        } catch (error) {
+            console.log("Error in fetching data")
+        }
+    }
 
     useEffect(() => {
         fetchOrders()
         fetchUsers()
+        fetchPendingQueries()
     }, [])
     return (
         <div className="dashboard-wrapper">
@@ -67,7 +78,7 @@ function DashboardAdmin() {
 
                     <div className="dashboard-stat-card">
                         <h3>Pending Queries</h3>
-                        <p>6</p>
+                        <p>{pendingQueries.length}</p>
                     </div>
                 </section>
 
@@ -80,7 +91,7 @@ function DashboardAdmin() {
                             <tr>
                                 <th>Order ID</th>
                                 <th>Name</th>
-                                <th>Amount</th>
+                                <th>Quantity</th>
                                 <th>Status</th>
                             </tr>
                         </thead>
@@ -90,7 +101,7 @@ function DashboardAdmin() {
                                     <tr>
                                         <td>#{order.id}</td>
                                         <td>{order.name}</td>
-                                        <td>₹450</td>
+                                        <td>{order.quantity}</td>
                                         <td>
                                             <span className="dashboard-status dashboard-success">
                                                 {order.status}
