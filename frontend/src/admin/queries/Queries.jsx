@@ -1,10 +1,18 @@
 import React, { useEffect, useState } from "react";
 import "./Queries.css";
-import { getAllQueries, updateQueryStatus, deleteQuery } from "../../services/adminAPI";
+import {
+    getAllQueries,
+    updateQueryStatus,
+    deleteQuery
+} from "../../services/adminAPI";
 
 function Queries() {
     const [queries, setQueries] = useState([]);
     const [loading, setLoading] = useState(true);
+
+    // MODAL STATE
+    const [showDeleteModal, setShowDeleteModal] = useState(false);
+    const [selectedId, setSelectedId] = useState(null);
 
     /* FETCH QUERIES */
     useEffect(() => {
@@ -22,12 +30,10 @@ function Queries() {
         fetchQueries();
     }, []);
 
-    /* UPDATE STATUS (SEND IN BODY) */
+    /* UPDATE STATUS */
     const updateStatus = async (id, status) => {
         try {
             await updateQueryStatus(id, status);
-
-            // Update UI state instantly
             setQueries((prev) =>
                 prev.map((q) =>
                     q._id === id ? { ...q, status } : q
@@ -38,17 +44,24 @@ function Queries() {
         }
     };
 
-    /* DELETE QUERY */
-    const deleteQueryy = async (id) => {
-        if (!window.confirm("Delete this query?")) return;
+    /* OPEN MODAL */
+    const openDeleteModal = (id) => {
+        setSelectedId(id);
+        setShowDeleteModal(true);
+    };
 
+    /* CONFIRM DELETE */
+    const handleDeleteConfirm = async () => {
         try {
-            await deleteQuery(id)
+            await deleteQuery(selectedId);
             setQueries((prev) =>
-                prev.filter((q) => q._id !== id)
+                prev.filter((q) => q._id !== selectedId)
             );
         } catch (error) {
             console.error(error);
+        } finally {
+            setShowDeleteModal(false);
+            setSelectedId(null);
         }
     };
 
@@ -109,7 +122,7 @@ function Queries() {
                                     <button
                                         className="delete-btn"
                                         onClick={() =>
-                                            deleteQueryy(query._id)
+                                            openDeleteModal(query._id)
                                         }
                                     >
                                         Delete
@@ -120,6 +133,37 @@ function Queries() {
                     </tbody>
                 </table>
             </div>
+
+            {/* NEW DELETE MODAL */}
+            {showDeleteModal && (
+                <div className="delete-backdrop">
+                    <div className="delete-modal">
+                        <div className="delete-icon">⚠️</div>
+                        <h2>Delete Query?</h2>
+                        <p>
+                            This action cannot be undone. Are you
+                            sure you want to proceed?
+                        </p>
+
+                        <div className="delete-modal-actions">
+                            <button
+                                className="btn-secondary"
+                                onClick={() =>
+                                    setShowDeleteModal(false)
+                                }
+                            >
+                                Cancel
+                            </button>
+                            <button
+                                className="btn-danger"
+                                onClick={handleDeleteConfirm}
+                            >
+                                Yes, Delete
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
         </div>
     );
 }
