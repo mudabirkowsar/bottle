@@ -138,10 +138,11 @@ function OrderNow() {
                     </div>
 
                     <div className="form-group">
-                        <label>Email (optional)</label>
+                        <label>Email</label>
                         <input
                             type="email"
                             name="email"
+                            required
                             placeholder="example@email.com"
                             value={order.email}
                             onChange={handleChange}

@@ -93,9 +93,12 @@ function Users() {
             {/* HEADER */}
             <div className="users-header">
                 <h1 className="users-title">Users Management</h1>
-                <button className="users-add-btn" onClick={openAddModal}>
+                {/* <button className="users-add-btn" onClick={openAddModal}>
                     + Add User
-                </button>
+                </button> */}
+                <span className="queries-count">
+                    Total: {users.length}
+                </span>
             </div>
 
             {/* TABLE */}

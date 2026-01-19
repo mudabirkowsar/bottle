@@ -1,6 +1,7 @@
 const express = require("express");
 const Order = require("../models/Order");
 const protect = require("../middleware/authMiddleware");
+const { default: sendEmail } = require("../utils/sendEmail");
 
 const router = express.Router();
 
@@ -21,6 +22,18 @@ router.post("/", protect, async (req, res) => {
         });
 
         await order.save();
+
+        await sendEmail({
+            to: order.email,
+            subject: "Your Order Has Been Placed",
+            html: `
+                        <h2>Hello ${order.name},</h2>
+                        <p>Thank you for ordering form AquaPure.</p>
+                        <p>Your order has been Placed we will update you soon .</p>
+                        <br />
+                        <strong>Thank you!</strong>
+                    `
+        })
 
         res.status(201).json({
             message: "Order Placed Successfully",
