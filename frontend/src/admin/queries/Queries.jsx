@@ -10,9 +10,13 @@ function Queries() {
     const [queries, setQueries] = useState([]);
     const [loading, setLoading] = useState(true);
 
-    // MODAL STATE
+    /* DELETE MODAL STATE */
     const [showDeleteModal, setShowDeleteModal] = useState(false);
-    const [selectedId, setSelectedId] = useState(null);
+    const [selectedDeleteId, setSelectedDeleteId] = useState(null);
+
+    /* RESOLVE MODAL STATE */
+    const [showResolveModal, setShowResolveModal] = useState(false);
+    const [selectedResolveQuery, setSelectedResolveQuery] = useState(null);
 
     /* FETCH QUERIES */
     useEffect(() => {
@@ -30,38 +34,53 @@ function Queries() {
         fetchQueries();
     }, []);
 
-    /* UPDATE STATUS */
-    const updateStatus = async (id, status) => {
+    /* OPEN RESOLVE MODAL */
+    const openResolveModal = (query) => {
+        setSelectedResolveQuery(query);
+        setShowResolveModal(true);
+    };
+
+    /* CONFIRM RESOLVE + SEND MAIL */
+    const handleResolveConfirm = async () => {
         try {
-            await updateQueryStatus(id, status);
+            await updateQueryStatus(
+                selectedResolveQuery._id,
+                "resolved"
+            );
+
             setQueries((prev) =>
                 prev.map((q) =>
-                    q._id === id ? { ...q, status } : q
+                    q._id === selectedResolveQuery._id
+                        ? { ...q, status: "resolved" }
+                        : q
                 )
             );
         } catch (error) {
             console.error(error);
+        } finally {
+            setShowResolveModal(false);
+            setSelectedResolveQuery(null);
         }
     };
 
-    /* OPEN MODAL */
+    /* OPEN DELETE MODAL */
     const openDeleteModal = (id) => {
-        setSelectedId(id);
+        setSelectedDeleteId(id);
         setShowDeleteModal(true);
     };
 
     /* CONFIRM DELETE */
     const handleDeleteConfirm = async () => {
         try {
-            await deleteQuery(selectedId);
+            await deleteQuery(selectedDeleteId);
             setQueries((prev) =>
-                prev.filter((q) => q._id !== selectedId)
+                prev.filter((q) => q._id !== selectedDeleteId)
             );
         } catch (error) {
             console.error(error);
         } finally {
             setShowDeleteModal(false);
-            setSelectedId(null);
+            setSelectedDeleteId(null);
         }
     };
 
@@ -110,10 +129,7 @@ function Queries() {
                                         <button
                                             className="resolve-btn"
                                             onClick={() =>
-                                                updateStatus(
-                                                    query._id,
-                                                    "resolved"
-                                                )
+                                                openResolveModal(query)
                                             }
                                         >
                                             Resolve
@@ -134,15 +150,48 @@ function Queries() {
                 </table>
             </div>
 
-            {/* NEW DELETE MODAL */}
+            {/* RESOLVE MODAL */}
+            {showResolveModal && (
+                <div className="resolve-backdrop">
+                    <div className="resolve-modal">
+                        <div className="resolve-icon">📧</div>
+                        <h2>Send Email & Resolve</h2>
+                        <p>
+                            Are you sure you want to resolve this
+                            query and send an email to:
+                        </p>
+                        <strong>
+                            {selectedResolveQuery.email}
+                        </strong>
+
+                        <div className="resolve-modal-actions">
+                            <button
+                                className="resolve-cancel-btn"
+                                onClick={() =>
+                                    setShowResolveModal(false)
+                                }
+                            >
+                                Cancel
+                            </button>
+                            <button
+                                className="resolve-confirm-btn"
+                                onClick={handleResolveConfirm}
+                            >
+                                Send Mail & Resolve
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
+
+            {/* DELETE MODAL */}
             {showDeleteModal && (
                 <div className="delete-backdrop">
                     <div className="delete-modal">
                         <div className="delete-icon">⚠️</div>
                         <h2>Delete Query?</h2>
                         <p>
-                            This action cannot be undone. Are you
-                            sure you want to proceed?
+                            This action cannot be undone.
                         </p>
 
                         <div className="delete-modal-actions">
