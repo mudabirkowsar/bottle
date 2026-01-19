@@ -21,7 +21,6 @@ function DashboardAdmin() {
     const fetchOrders = async () => {
         try {
             const res = await getALlOrders();
-            console.log(res)
             setOrders(res.data.data)
         } catch (error) {
             alert("Error in fetching orders ")
@@ -30,7 +29,6 @@ function DashboardAdmin() {
     const fetchUsers = async () => {
         try {
             const res = await getAllUsers();
-            console.log(res)
             setUsers(res.data.data)
         } catch (error) {
             console.log("Error In fetching users ")

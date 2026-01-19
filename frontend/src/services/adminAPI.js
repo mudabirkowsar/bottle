@@ -48,3 +48,12 @@ export const updateQueryStatus = (id, status) => {
     })
     return response
 }
+
+export const deleteUser = (id) => {
+    const response = api.delete(`/admin/delete-user/${id}`, {
+        headers: {
+            Authorization: token
+        }
+    })
+    return response
+}

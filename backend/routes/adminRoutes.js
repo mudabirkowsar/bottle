@@ -62,7 +62,7 @@ router.get('/all-orders', protect, async (req, res) => {
 
 // Update status of Order 
 
-router.put("/update-order-status/:id",protect, async (req, res) => {
+router.put("/update-order-status/:id", protect, async (req, res) => {
     try {
         const { status } = req.body;
         const { id } = req.params;
@@ -99,7 +99,7 @@ router.put("/update-order-status/:id",protect, async (req, res) => {
 });
 
 
-router.put('/update-query-status/:id', protect, async(req, res) => {
+router.put('/update-query-status/:id', protect, async (req, res) => {
     try {
         const { status } = req.body;
         const { id } = req.params;
@@ -133,6 +133,35 @@ router.put('/update-query-status/:id', protect, async(req, res) => {
             message: "Internal server error"
         });
     }
+})
+
+
+// Delete user 
+
+router.delete('/delete-user/:id', protect, async (req, res) => {
+    const { id } = req.params;
+    console.log(id)
+
+    try {
+        const user = await User.findByIdAndDelete(id);
+        if (!user) {
+            console.log("User not found")
+            res.status(404).json({
+                message: "User not found",
+            })
+        }
+
+        console.log("User deleted 6")
+        res.status(200).json({
+            message: "User Deleted successfully"
+        })
+    } catch (error) {
+        console.log("Error in delete ")
+        res.status(500).json({
+            message: "Something went wrong"
+        })
+    }
+
 })
 
 

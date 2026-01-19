@@ -1,27 +1,26 @@
 import React, { useState } from "react";
 import "./Users.css";
 import { useEffect } from "react";
-import { getAllUsers } from "../../services/adminAPI";
+import { deleteUser, getAllUsers } from "../../services/adminAPI";
 
 function Users() {
     const [users, setUsers] = useState([]);
 
-    useEffect(() => {
-        const fetchUsers = async () => {
-            try {
-                const token = localStorage.getItem("token");
-                if (!token) {
-                    alert("Login first");
-                    return;
-                }
-                const res = await getAllUsers();
-                setUsers(res.data.data)
-
-            } catch (error) {
-                console.error(error);
+    const fetchUsers = async () => {
+        try {
+            const token = localStorage.getItem("token");
+            if (!token) {
+                alert("Login first");
+                return;
             }
-        };
+            const res = await getAllUsers();
+            setUsers(res.data.data)
 
+        } catch (error) {
+            console.error(error);
+        }
+    };
+    useEffect(() => {
         fetchUsers();
     }, []);
 
@@ -63,11 +62,22 @@ function Users() {
         setShowModal(false);
     };
 
-    const handleDelete = (id) => {
-        if (window.confirm("Are you sure you want to delete this user?")) {
-            setUsers(users.filter((u) => u.id !== id));
+    const handleDelete = async (id) => {
+        if (!window.confirm("Are you sure you want to delete this user?")) return;
+
+        try {
+            await deleteUser(id);
+
+            setUsers((prevUsers) =>
+                prevUsers.filter((u) => u._id !== id)
+            );
+
+        } catch (error) {
+            console.error("Failed to delete user", error);
+            alert("Failed to delete user");
         }
     };
+
 
     return (
         <div className="users-page">
@@ -110,7 +120,7 @@ function Users() {
                                     </button>
                                     <button
                                         className="users-delete-btn"
-                                        onClick={() => handleDelete(user.id)}
+                                        onClick={() => handleDelete(user._id)}
                                     >
                                         Delete
                                     </button>
