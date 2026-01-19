@@ -99,7 +99,7 @@ function DashboardAdmin() {
                             {
                                 orders.map((order) => (
                                     <tr>
-                                        <td>#{order.id}</td>
+                                        <td>#{order._id}</td>
                                         <td>{order.name}</td>
                                         <td>{order.quantity}</td>
                                         <td>

@@ -22,18 +22,18 @@ function Queries() {
     const [isSending, setIsSending] = useState(false);
 
     /* FETCH QUERIES */
-    useEffect(() => {
-        const fetchQueries = async () => {
-            try {
-                const res = await getAllQueries();
-                setQueries(res.data.data);
-            } catch (error) {
-                console.error(error);
-            } finally {
-                setLoading(false);
-            }
-        };
+    const fetchQueries = async () => {
+        try {
+            const res = await getAllQueries();
+            setQueries(res.data.data);
+        } catch (error) {
+            console.error(error);
+        } finally {
+            setLoading(false);
+        }
+    };
 
+    useEffect(() => {
         fetchQueries();
     }, []);
 
@@ -52,14 +52,7 @@ function Queries() {
                 selectedResolveQuery._id,
                 "resolved"
             );
-
-            setQueries((prev) =>
-                prev.map((q) =>
-                    q._id === selectedResolveQuery._id
-                        ? { ...q, status: "resolved" }
-                        : q
-                )
-            );
+            fetchQueries()
         } catch (error) {
             console.error(error);
         } finally {
@@ -79,9 +72,7 @@ function Queries() {
     const handleDeleteConfirm = async () => {
         try {
             await deleteQuery(selectedDeleteId);
-            setQueries((prev) =>
-                prev.filter((q) => q._id !== selectedDeleteId)
-            );
+            fetchQueries()
         } catch (error) {
             console.error(error);
         } finally {
