@@ -1,11 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./Users.css";
-import { useEffect } from "react";
 import { deleteUser, getAllUsers } from "../../services/adminAPI";
 
 function Users() {
     const [users, setUsers] = useState([]);
 
+    /* FETCH USERS */
     const fetchUsers = async () => {
         try {
             const token = localStorage.getItem("token");
@@ -14,17 +14,17 @@ function Users() {
                 return;
             }
             const res = await getAllUsers();
-            setUsers(res.data.data)
-
+            setUsers(res.data.data);
         } catch (error) {
             console.error(error);
         }
     };
+
     useEffect(() => {
         fetchUsers();
     }, []);
 
-
+    /* ADD / EDIT MODAL STATE */
     const [showModal, setShowModal] = useState(false);
     const [editingUser, setEditingUser] = useState(null);
     const [formData, setFormData] = useState({
@@ -32,6 +32,10 @@ function Users() {
         email: "",
         role: "user",
     });
+
+    /* DELETE CONFIRM MODAL STATE */
+    const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
+    const [deleteUserId, setDeleteUserId] = useState(null);
 
     const openAddModal = () => {
         setEditingUser(null);
@@ -62,22 +66,27 @@ function Users() {
         setShowModal(false);
     };
 
-    const handleDelete = async (id) => {
-        if (!window.confirm("Are you sure you want to delete this user?")) return;
+    /* OPEN DELETE CONFIRM MODAL */
+    const openDeleteConfirm = (id) => {
+        setDeleteUserId(id);
+        setShowDeleteConfirm(true);
+    };
 
+    /* CONFIRM DELETE */
+    const confirmDeleteUser = async () => {
         try {
-            await deleteUser(id);
-
+            await deleteUser(deleteUserId);
             setUsers((prevUsers) =>
-                prevUsers.filter((u) => u._id !== id)
+                prevUsers.filter((u) => u._id !== deleteUserId)
             );
-
         } catch (error) {
             console.error("Failed to delete user", error);
             alert("Failed to delete user");
+        } finally {
+            setShowDeleteConfirm(false);
+            setDeleteUserId(null);
         }
     };
-
 
     return (
         <div className="users-page">
@@ -103,11 +112,13 @@ function Users() {
 
                     <tbody>
                         {users.map((user) => (
-                            <tr key={user.id}>
+                            <tr key={user._id}>
                                 <td>{user.name}</td>
                                 <td>{user.email}</td>
                                 <td>
-                                    <span className={`users-role users-role-${user.role}`}>
+                                    <span
+                                        className={`users-role users-role-${user.role}`}
+                                    >
                                         {user.role}
                                     </span>
                                 </td>
@@ -120,7 +131,9 @@ function Users() {
                                     </button>
                                     <button
                                         className="users-delete-btn"
-                                        onClick={() => handleDelete(user._id)}
+                                        onClick={() =>
+                                            openDeleteConfirm(user._id)
+                                        }
                                     >
                                         Delete
                                     </button>
@@ -131,7 +144,7 @@ function Users() {
                 </table>
             </div>
 
-            {/* MODAL */}
+            {/* ADD / EDIT MODAL */}
             {showModal && (
                 <div className="users-modal-overlay">
                     <div className="users-modal">
@@ -179,6 +192,37 @@ function Users() {
                                 onClick={handleSave}
                             >
                                 Save
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
+
+            {/* DELETE CONFIRM MODAL (NEW) */}
+            {showDeleteConfirm && (
+                <div className="delete-backdrop">
+                    <div className="delete-modal">
+                        <div className="delete-icon">⚠️</div>
+                        <h2>Delete User?</h2>
+                        <p>
+                            This action cannot be undone. Are you
+                            sure you want to proceed?
+                        </p>
+
+                        <div className="delete-modal-actions">
+                            <button
+                                className="btn-secondary"
+                                onClick={() =>
+                                    setShowDeleteConfirm(false)
+                                }
+                            >
+                                Cancel
+                            </button>
+                            <button
+                                className="btn-danger"
+                                onClick={confirmDeleteUser}
+                            >
+                                Yes, Delete
                             </button>
                         </div>
                     </div>
