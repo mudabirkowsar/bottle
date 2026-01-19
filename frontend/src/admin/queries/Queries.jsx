@@ -1,15 +1,16 @@
 import React, { useEffect, useState } from "react";
 import "./Queries.css";
-import { getAllQueries } from "../../services/adminAPI";
+import { getAllQueries, updateQueryStatus } from "../../services/adminAPI";
 
 function Queries() {
     const [queries, setQueries] = useState([]);
     const [loading, setLoading] = useState(true);
 
+    /* FETCH QUERIES */
     useEffect(() => {
         const fetchQueries = async () => {
             try {
-                const res = await getAllQueries()
+                const res = await getAllQueries();
                 setQueries(res.data.data);
             } catch (error) {
                 console.error(error);
@@ -21,31 +22,34 @@ function Queries() {
         fetchQueries();
     }, []);
 
-    /* MARK AS RESOLVED */
-    // const markResolved = async (id) => {
-    //     try {
-    //         await api.put(`/admin/queries/${id}/resolve`);
-    //         setQueries((prev) =>
-    //             prev.map((q) =>
-    //                 q._id === id ? { ...q, status: "resolved" } : q
-    //             )
-    //         );
-    //     } catch (error) {
-    //         console.error(error);
-    //     }
-    // };
+    /* UPDATE STATUS (SEND IN BODY) */
+    const updateStatus = async (id, status) => {
+        try {
+            await updateQueryStatus(id, status);
+
+            // Update UI state instantly
+            setQueries((prev) =>
+                prev.map((q) =>
+                    q._id === id ? { ...q, status } : q
+                )
+            );
+        } catch (error) {
+            console.error(error);
+        }
+    };
 
     /* DELETE QUERY */
-    // const deleteQuery = async (id) => {
-    //     if (!window.confirm("Delete this query?")) return;
+    const deleteQuery = async (id) => {
+        if (!window.confirm("Delete this query?")) return;
 
-    //     try {
-    //         await api.delete(`/admin/queries/${id}`);
-    //         setQueries((prev) => prev.filter((q) => q._id !== id));
-    //     } catch (error) {
-    //         console.error(error);
-    //     }
-    // };
+        try {
+            setQueries((prev) =>
+                prev.filter((q) => q._id !== id)
+            );
+        } catch (error) {
+            console.error(error);
+        }
+    };
 
     if (loading) return <p>Loading queries...</p>;
 
@@ -92,7 +96,10 @@ function Queries() {
                                         <button
                                             className="resolve-btn"
                                             onClick={() =>
-                                                markResolved(query._id)
+                                                updateStatus(
+                                                    query._id,
+                                                    "resolved"
+                                                )
                                             }
                                         >
                                             Resolve

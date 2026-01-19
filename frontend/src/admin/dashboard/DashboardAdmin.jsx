@@ -1,7 +1,18 @@
 import React from "react";
 import "./DashboardAdmin.css";
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 function DashboardAdmin() {
+    const navigate = useNavigate()
+    useEffect(() => {
+        const token = localStorage.getItem("token")
+        if(!token){
+
+            navigate("http://localhost:5173/login")
+            return
+        }
+    }, [])
     return (
         <div className="dashboard-wrapper">
             <main className="dashboard-main">

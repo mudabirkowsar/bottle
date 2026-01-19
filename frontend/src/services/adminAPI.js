@@ -32,7 +32,16 @@ export const getALlOrders = () => {
 
 
 export const updateOrderStatus = (id, status) => {
-    const response = api.put(`/admin/update-status/${id}`, { status }, {
+    const response = api.put(`/admin/update-order-status/${id}`, { status }, {
+        headers: {
+            Authorization: token
+        }
+    })
+    return response
+}
+
+export const updateQueryStatus = (id, status) => {
+    const response = api.put(`/admin/update-query-status/${id}`, { status }, {
         headers: {
             Authorization: token
         }
