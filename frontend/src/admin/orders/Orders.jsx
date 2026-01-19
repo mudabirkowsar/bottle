@@ -1,40 +1,74 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./Orders.css";
-import { useEffect } from "react";
 import { getALlOrders, updateOrderStatus } from "../../services/adminAPI";
-import axios from 'axios';
 
 function Orders() {
-
     const [orders, setOrders] = useState([]);
+
+    /* MODAL STATES */
+    const [showViewModal, setShowViewModal] = useState(false);
+    const [showDeliverModal, setShowDeliverModal] = useState(false);
+    const [selectedOrder, setSelectedOrder] = useState(null);
+
+    /* LOADING STATE */
+    const [isSending, setIsSending] = useState(false);
 
     useEffect(() => {
         const fetchAllOrders = async () => {
             try {
-                const token = localStorage.getItem("token")
-                if (!token) {
-                    alert("Login first")
-                    return
-                }
                 const res = await getALlOrders();
-                setOrders(res.data.data)
+                setOrders(res.data.data);
             } catch (error) {
-                console.log("Something went wrong")
+                console.log("Something went wrong");
             }
+        };
+        fetchAllOrders();
+    }, []);
+
+    /* CONFIRM VIEW */
+    const confirmViewed = async () => {
+        try {
+            setIsSending(true);
+
+            await updateOrderStatus(selectedOrder._id, "viewed");
+
+            setOrders(prev =>
+                prev.map(o =>
+                    o._id === selectedOrder._id
+                        ? { ...o, status: "viewed" }
+                        : o
+                )
+            );
+        } catch (err) {
+            console.error(err);
+        } finally {
+            setIsSending(false);
+            setShowViewModal(false);
+            setSelectedOrder(null);
         }
-        fetchAllOrders()
-    }, [])
+    };
 
-    const updateStatus = async (id, newStatus) => {
-        setOrders(prev =>
-            prev.map(order =>
-                order._id === id
-                    ? { ...order, status: newStatus }
-                    : order
-            )
-        );
+    /* CONFIRM DELIVERY */
+    const confirmDelivered = async () => {
+        try {
+            setIsSending(true);
 
-        const res = await updateOrderStatus(id, newStatus);
+            await updateOrderStatus(selectedOrder._id, "delivered");
+
+            setOrders(prev =>
+                prev.map(o =>
+                    o._id === selectedOrder._id
+                        ? { ...o, status: "delivered" }
+                        : o
+                )
+            );
+        } catch (err) {
+            console.error(err);
+        } finally {
+            setIsSending(false);
+            setShowDeliverModal(false);
+            setSelectedOrder(null);
+        }
     };
 
     const getStatusLabel = (status) => {
@@ -55,7 +89,6 @@ function Orders() {
                     <table>
                         <thead>
                             <tr>
-                                {/* <th>Order ID</th> */}
                                 <th>Customer</th>
                                 <th>Phone</th>
                                 <th>Size</th>
@@ -70,7 +103,6 @@ function Orders() {
                         <tbody>
                             {orders.map(order => (
                                 <tr key={order._id}>
-                                    {/* <td>#{order._id}</td> */}
                                     <td>{order.name}</td>
                                     <td>{order.phone}</td>
                                     <td>{order.size}</td>
@@ -88,7 +120,10 @@ function Orders() {
                                         {order.status === "not_viewed" && (
                                             <button
                                                 className="view-btn"
-                                                onClick={() => updateStatus(order._id, "viewed")}
+                                                onClick={() => {
+                                                    setSelectedOrder(order);
+                                                    setShowViewModal(true);
+                                                }}
                                             >
                                                 Mark Viewed
                                             </button>
@@ -97,7 +132,10 @@ function Orders() {
                                         {order.status === "viewed" && (
                                             <button
                                                 className="deliver-btn"
-                                                onClick={() => updateStatus(order._id, "delivered")}
+                                                onClick={() => {
+                                                    setSelectedOrder(order);
+                                                    setShowDeliverModal(true);
+                                                }}
                                             >
                                                 Mark Delivered
                                             </button>
@@ -113,6 +151,78 @@ function Orders() {
                     </table>
                 </section>
             </main>
+
+            {/* VIEW MODAL */}
+            {showViewModal && (
+                <div className="order-backdrop">
+                    <div className="order-modal">
+                        <h2>Send Email & Mark Viewed</h2>
+                        <p>Email will be sent to:</p>
+                        <strong>{selectedOrder?.email}</strong>
+
+                        <div className="order-modal-actions">
+                            <button
+                                className="order-cancel-btn"
+                                onClick={() => setShowViewModal(false)}
+                                disabled={isSending}
+                            >
+                                Cancel
+                            </button>
+
+                            <button
+                                className="order-confirm-btn"
+                                onClick={confirmViewed}
+                                disabled={isSending}
+                            >
+                                {isSending ? (
+                                    <>
+                                        <span className="btn-spinner" />
+                                        Sending...
+                                    </>
+                                ) : (
+                                    "Send Email"
+                                )}
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
+
+            {/* DELIVERY MODAL */}
+            {showDeliverModal && (
+                <div className="order-backdrop">
+                    <div className="order-modal">
+                        <h2>Send Email & Mark Delivered</h2>
+                        <p>Email will be sent to:</p>
+                        <strong>{selectedOrder?.email}</strong>
+
+                        <div className="order-modal-actions">
+                            <button
+                                className="order-cancel-btn"
+                                onClick={() => setShowDeliverModal(false)}
+                                disabled={isSending}
+                            >
+                                Cancel
+                            </button>
+
+                            <button
+                                className="order-confirm-btn delivered"
+                                onClick={confirmDelivered}
+                                disabled={isSending}
+                            >
+                                {isSending ? (
+                                    <>
+                                        <span className="btn-spinner" />
+                                        Sending...
+                                    </>
+                                ) : (
+                                    "Send Email"
+                                )}
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
         </div>
     );
 }

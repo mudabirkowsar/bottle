@@ -248,3 +248,135 @@ tbody tr:hover {
         font-size: 24px;
     }
 }
+
+/* =========================
+   MODAL BACKDROP
+========================= */
+.order-backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.55);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 999;
+}
+
+/* =========================
+   MODAL BOX
+========================= */
+.order-modal {
+    background: #fff;
+    width: 420px;
+    padding: 26px;
+    border-radius: 14px;
+    text-align: center;
+    animation: scaleIn 0.25s ease;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.25);
+}
+
+.order-modal h2 {
+    font-size: 22px;
+    margin-bottom: 10px;
+    color: #1f2937;
+}
+
+.order-modal p {
+    font-size: 15px;
+    color: #4b5563;
+}
+
+.order-modal strong {
+    display: block;
+    margin: 10px 0 22px;
+    color: #2563eb;
+    word-break: break-all;
+}
+
+.order-modal-actions {
+    display: flex;
+    justify-content: center;
+    gap: 14px;
+}
+
+/* =========================
+   BUTTONS
+========================= */
+.order-cancel-btn {
+    padding: 10px 18px;
+    border-radius: 8px;
+    border: 1px solid #d1d5db;
+    background: #fff;
+    cursor: pointer;
+}
+
+.order-cancel-btn:hover {
+    background: #f3f4f6;
+}
+
+.order-confirm-btn {
+    padding: 10px 18px;
+    border-radius: 8px;
+    border: none;
+    background: #2563eb;
+    color: #fff;
+    cursor: pointer;
+}
+
+.order-confirm-btn:hover {
+    background: #1d4ed8;
+}
+
+.order-confirm-btn.delivered {
+    background: #16a34a;
+}
+
+.order-confirm-btn.delivered:hover {
+    background: #15803d;
+}
+
+/* =========================
+   BUTTON LOADING STATE
+========================= */
+.order-confirm-btn:disabled,
+.order-cancel-btn:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+}
+
+/* =========================
+   SPINNER
+========================= */
+.btn-spinner {
+    width: 16px;
+    height: 16px;
+    border: 2px solid rgba(255, 255, 255, 0.6);
+    border-top-color: #fff;
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+    display: inline-block;
+    margin-right: 8px;
+    vertical-align: middle;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+
+/* =========================
+   ANIMATION
+========================= */
+@keyframes scaleIn {
+    from {
+        transform: scale(0.9);
+        opacity: 0;
+    }
+
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}

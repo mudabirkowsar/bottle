@@ -84,6 +84,34 @@ router.put("/update-order-status/:id", protect, async (req, res) => {
             { new: true } // ✅ return updated document
         );
 
+        if (status == "viewed") {
+            await sendEmail({
+                to: order.email,
+                subject: "Your Order Has Been Viewed",
+                html: `
+                <h2>Hello ${order.name},</h2>
+                <p>Thank you for ordering form AquaPure.</p>
+                <p>Your order has been Viewed.</p>
+                <br />
+                <strong>Thank you!</strong>
+            `
+            })
+        }
+
+        if (status == "delivered") {
+            await sendEmail({
+                to: order.email,
+                subject: "Your Order Has Been Delivered",
+                html: `
+                <h2>Hello ${order.name},</h2>
+                <p>Thank you for ordering form AquaPure.</p>
+                <p>Your order has been Delivered.</p>
+                <br />
+                <strong>Thank you!</strong>
+            `
+            })
+        }
+
         if (!order) {
             return res.status(404).json({
                 message: "Order not found"
