@@ -57,3 +57,12 @@ export const deleteUser = (id) => {
     })
     return response
 }
+
+export const deleteQuery = (id) => {
+    const response = api.delete(`/admin/delete-query/${id}`, {
+        headers: {
+            Authorization: token
+        }
+    })
+    return response
+}

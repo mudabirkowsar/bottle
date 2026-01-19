@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "./Queries.css";
-import { getAllQueries, updateQueryStatus } from "../../services/adminAPI";
+import { getAllQueries, updateQueryStatus, deleteQuery } from "../../services/adminAPI";
 
 function Queries() {
     const [queries, setQueries] = useState([]);
@@ -39,10 +39,11 @@ function Queries() {
     };
 
     /* DELETE QUERY */
-    const deleteQuery = async (id) => {
+    const deleteQueryy = async (id) => {
         if (!window.confirm("Delete this query?")) return;
 
         try {
+            await deleteQuery(id)
             setQueries((prev) =>
                 prev.filter((q) => q._id !== id)
             );
@@ -108,7 +109,7 @@ function Queries() {
                                     <button
                                         className="delete-btn"
                                         onClick={() =>
-                                            deleteQuery(query._id)
+                                            deleteQueryy(query._id)
                                         }
                                     >
                                         Delete

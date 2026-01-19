@@ -137,10 +137,8 @@ router.put('/update-query-status/:id', protect, async (req, res) => {
 
 
 // Delete user 
-
 router.delete('/delete-user/:id', protect, async (req, res) => {
     const { id } = req.params;
-    console.log(id)
 
     try {
         const user = await User.findByIdAndDelete(id);
@@ -162,6 +160,29 @@ router.delete('/delete-user/:id', protect, async (req, res) => {
         })
     }
 
+})
+
+// Delete Query 
+
+router.delete('/delete-query/:id', protect, async (req, res) => {
+    console.log(req.params.id)
+    try {
+        const query = await Query.findByIdAndDelete(req.params.id)
+
+        if (!query) {
+            res.status(404).json({
+                message: "Query not found"
+            })
+        }
+
+        res.status(200).json({
+            message: "Query deleted Successfully"
+        })
+    } catch (error) {
+        res.status(500).json({
+            message: "Internal Error "
+        })
+    }
 })
 
 
