@@ -3,6 +3,7 @@ const User = require("../models/User");
 const Query = require("../models/Query");
 const protect = require("../middleware/authMiddleware");
 const Order = require("../models/Order");
+const { default: sendEmail } = require("../utils/sendEmail");
 
 const router = express.Router();
 
@@ -117,8 +118,22 @@ router.put('/update-query-status/:id', protect, async (req, res) => {
         const order = await Query.findByIdAndUpdate(
             id,
             { status },
-            { new: true } // ✅ return updated document
+            { new: true }
         );
+
+        if (status === "resolved") {
+            await sendEmail({
+                to: order.email,
+                subject: "Your Query Has Been Resolved",
+                html: `
+                <h2>Hello ${order.name},</h2>
+                <p>We will try our best to reach you out for your query.</p>
+                <p>If you have more questions, feel free to contact us.</p>
+                <br />
+                <strong>Thank you!</strong>
+            `
+            });
+        }
 
         if (!order) {
             return res.status(404).json({
