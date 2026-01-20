@@ -2,12 +2,14 @@ const express = require("express");
 const Order = require("../models/Order");
 const protect = require("../middleware/authMiddleware");
 const { default: sendEmail } = require("../utils/sendEmail");
+const User = require("../models/User");
 
 const router = express.Router();
 
 // POST: Create a new order
 router.post("/", protect, async (req, res) => {
     try {
+        const userId = req.user.id;
         const { size, quantity, name, phone, email, address, note } = req.body;
 
         // Validation
@@ -30,10 +32,17 @@ router.post("/", protect, async (req, res) => {
         }
 
         const order = new Order({
+            user: userId,
             size, quantity, name, phone, email, address, note
         });
 
         await order.save();
+
+        await User.findByIdAndUpdate(
+            userId,
+            { $push: { orders: order._id } },
+            { new: true }
+        )
 
         await sendEmail({
             to: order.email,

@@ -39,7 +39,6 @@ function DashboardAdmin() {
         try {
             const res = await getAllQueries();
             setPendingQueries(res.data.pending)
-            console.log(res)
         } catch (error) {
             console.log("Error in fetching data")
         }

@@ -1,13 +1,19 @@
 const mongoose = require("mongoose")
 
 const orderSchema = new mongoose.Schema({
+    user: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User",
+        required: true
+    },
+
     size: {
         type: String,
         required: true,
     },
 
     quantity: {
-        type: String,
+        type: Number,
         required: true,
     },
 
@@ -32,7 +38,6 @@ const orderSchema = new mongoose.Schema({
 
     note: {
         type: String,
-        required: true,
     },
 
     status: {
@@ -40,6 +45,6 @@ const orderSchema = new mongoose.Schema({
         enum: ['not_viewed', 'viewed', 'delivered'],
         default: 'not_viewed'
     }
-})
+}, { timestamps: true })
 
 module.exports = mongoose.model("Order", orderSchema)
