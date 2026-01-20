@@ -144,8 +144,6 @@ router.post('/login-user', async (req, res) => {
 
 router.post('/verify-email', async (req, res) => {
     const { email, otp } = req.body;
-    console.log(otp)
-    console.log(email)
 
     try {
         if (!email || !otp) {
@@ -155,9 +153,6 @@ router.post('/verify-email', async (req, res) => {
         }
 
         const user = await User.findOne({ email: email.toLowerCase() });
-        console.log(user.otp)
-        console.log(user.email)
-
         if (!user) {
             return res.status(404).json({
                 message: "User not found",
