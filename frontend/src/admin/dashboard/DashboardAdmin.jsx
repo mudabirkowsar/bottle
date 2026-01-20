@@ -97,7 +97,7 @@ function DashboardAdmin() {
                         </thead>
                         <tbody>
                             {
-                                orders.map((order) => (
+                                [...orders].reverse().map((order) => (
                                     <tr>
                                         <td>#{order._id}</td>
                                         <td>{order.name}</td>

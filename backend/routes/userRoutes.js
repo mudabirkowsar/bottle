@@ -16,6 +16,11 @@ router.post('/create-user', async (req, res) => {
             });
         }
 
+        if(password.length <= 8 ){
+             return res.status(400).json({
+                message: "Password should be more than 8 ",
+            });
+        }
         const existedUser = await User.findOne({ email: email.toLowerCase() });
         if (existedUser) {
             return res.status(409).json({

@@ -106,7 +106,7 @@ function Queries() {
                     </thead>
 
                     <tbody>
-                        {queries.map((query) => (
+                        {[...queries].reverse().map((query) => (
                             <tr key={query._id}>
                                 <td>{query.name}</td>
                                 <td>{query.email}</td>

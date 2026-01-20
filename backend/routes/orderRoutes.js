@@ -17,6 +17,18 @@ router.post("/", protect, async (req, res) => {
             });
         }
 
+        if (phone.length != 10) {
+            return res.status(400).json({
+                message: "Enter Valid Phone Number",
+            })
+        }
+
+        if (quantity < 100) {
+            return res.status(400).json({
+                message: "Quantity Should be Greater than 100",
+            })
+        }
+
         const order = new Order({
             size, quantity, name, phone, email, address, note
         });

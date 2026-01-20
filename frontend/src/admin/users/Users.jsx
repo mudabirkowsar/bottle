@@ -114,7 +114,7 @@ function Users() {
                     </thead>
 
                     <tbody>
-                        {users.map((user) => (
+                        {[...users].reverse().map((user) => (
                             <tr key={user._id}>
                                 <td>{user.name}</td>
                                 <td>{user.email}</td>

@@ -101,7 +101,7 @@ function Orders() {
                         </thead>
 
                         <tbody>
-                            {orders.map(order => (
+                            {[...orders].reverse().map(order => (
                                 <tr key={order._id}>
                                     <td>{order.name}</td>
                                     <td>{order.phone}</td>
