@@ -25,9 +25,17 @@ const userSchema = new mongoose.Schema({
         default: 'user'
     },
 
-    otp: {
-        type: String,
-    },
+    orders: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Order"
+    }],
+
+    queries: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Query"
+    }],
+
+    otp: String,
 
     otpExpiresAt: {
         type: Date,
@@ -39,10 +47,6 @@ const userSchema = new mongoose.Schema({
         default: false,
     },
 
-    createdAt: {
-        type: Date,
-        default: Date.now
-    }
-})
+}, { timestamps: true })
 
 module.exports = mongoose.model("User", userSchema)
