@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import './SignupPage.css';
 import Footer from '../../../components/footer/Footer';
 import Navbar from '../../../components/navbar/Navbar';
-import { createUser } from '../../../services/userAPI';
+import { createUser, verifyOTP } from '../../../services/userAPI'; // ⬅️ add verifyOtp
 
 function SignupPage() {
     const [name, setName] = useState("");
@@ -12,8 +12,14 @@ function SignupPage() {
     const [confirmPassword, setConfirmPassword] = useState("");
 
     const [message, setMessage] = useState("");
-    const [messageType, setMessageType] = useState(""); // success | error
+    const [messageType, setMessageType] = useState("");
     const [loading, setLoading] = useState(false);
+
+    // 🔹 NEW STATES FOR OTP
+    const [showOtpModal, setShowOtpModal] = useState(false);
+    const [otp, setOtp] = useState("");
+    const [otpLoading, setOtpLoading] = useState(false);
+    const [otpError, setOtpError] = useState("");
 
     const navigate = useNavigate();
 
@@ -40,22 +46,44 @@ function SignupPage() {
             setLoading(true);
             const res = await createUser(formData);
 
-            localStorage.setItem("token", res.data.token);
-
-            setMessage(res?.data?.message || "Account created successfully");
+            setMessage(res?.data?.message || "OTP sent to your email");
             setMessageType("success");
 
-            setTimeout(() => {
-                navigate("/");
-            }, 1200);
+            // 🔹 OPEN OTP MODAL
+            setShowOtpModal(true);
 
         } catch (error) {
-            setMessage(
-                error?.response?.data?.message || "Signup failed"
-            );
+            setMessage(error?.response?.data?.message || "Signup failed");
             setMessageType("error");
         } finally {
             setLoading(false);
+        }
+    };
+
+    // 🔹 OTP VERIFY HANDLER
+    const handleVerifyOtp = async () => {
+        if (otp.length !== 6) {
+            setOtpError("Please enter 6 digit OTP");
+            return;
+        }
+
+        try {
+            setOtpLoading(true);
+            setOtpError("");
+
+            const res = await verifyOTP({ email, otp });
+
+            localStorage.setItem("token", res.data.token);
+
+            setShowOtpModal(false);
+
+            navigate("/");
+
+        } catch (error) {
+            setOtpError(error?.response?.data?.message || "Invalid OTP");
+            console.log(error?.response?.data?.message || "Invalid OTP");
+        } finally {
+            setOtpLoading(false);
         }
     };
 
@@ -70,7 +98,6 @@ function SignupPage() {
                         <p>Create your account</p>
                     </div>
 
-                    {/* MESSAGE BOX */}
                     {message && (
                         <div className={`message-box ${messageType}`}>
                             {message}
@@ -129,6 +156,34 @@ function SignupPage() {
                     </div>
                 </div>
             </div>
+
+            {/* 🔹 OTP MODAL */}
+            {showOtpModal && (
+                <div className="otp-modal-overlay">
+                    <div className="otp-modal">
+                        <h2>Email Verification</h2>
+                        <p>Enter the 6 digit OTP sent to your email</p>
+
+                        <input
+                            type="text"
+                            maxLength="6"
+                            className="otp-input"
+                            value={otp}
+                            onChange={(e) => setOtp(e.target.value.replace(/\D/g, ""))}
+                        />
+
+                        {otpError && <p className="otp-error">{otpError}</p>}
+
+                        <button
+                            className="otp-btn"
+                            onClick={handleVerifyOtp}
+                            disabled={otpLoading}
+                        >
+                            {otpLoading ? "Verifying..." : "Verify OTP"}
+                        </button>
+                    </div>
+                </div>
+            )}
 
             <Footer />
         </div>
