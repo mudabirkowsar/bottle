@@ -8,6 +8,7 @@ import OrderNow from './pages/orderNow/OrderNow'
 import LoginPage from './pages/authPages/loginPage/LoginPage'
 import SignupPage from './pages/authPages/signupPage/SignupPage'
 import NavbarAdmin from './admin/NavbarAdmin'
+import UserOrders from './pages/userOrder/UserOrders'
 
 function App() {
 
@@ -18,6 +19,8 @@ function App() {
         <Route path='/aboutus' element={<AboutUs />} />
         <Route path='/query' element={<QueryPage />} />
         <Route path='/ordernow' element={<OrderNow />} />
+
+        <Route path='/my-orders' element={<UserOrders />} />
 
         <Route path='/login' element={<LoginPage />} />
         <Route path='/signup' element={<SignupPage />} />

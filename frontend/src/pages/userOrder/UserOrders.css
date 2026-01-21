@@ -1,0 +1,82 @@
+/* ---------- ORDERS WRAPPER ---------- */
+.orders-wrapper {
+    grid-template-columns: 1fr;
+}
+
+/* ---------- ORDER CARD ---------- */
+.order-card {
+    background: #ffffff;
+    padding: 28px;
+    border-radius: 18px;
+    box-shadow: 0 18px 35px rgba(0, 0, 0, 0.1);
+    transition: 0.3s;
+}
+
+.order-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 25px 45px rgba(0, 0, 0, 0.15);
+}
+
+/* ---------- CARD HEADER ---------- */
+.order-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 18px;
+}
+
+.order-card-header h3 {
+    margin: 0;
+    font-size: 18px;
+    color: #0c5460;
+}
+
+.order-date {
+    font-size: 13px;
+    color: #6c757d;
+}
+
+/* ---------- ORDER STATUS ---------- */
+.order-status {
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.order-status.delivered {
+    background: #d1f7e3;
+    color: #0f5132;
+}
+
+.order-status.pending {
+    background: #fff3cd;
+    color: #664d03;
+}
+
+.order-status.cancelled {
+    background: #fde2e2;
+    color: #842029;
+}
+
+/* ---------- ORDER ITEMS ---------- */
+.order-items p {
+    margin: 6px 0;
+    font-size: 14px;
+    color: #444;
+}
+
+/* ---------- CARD FOOTER ---------- */
+.order-card-footer {
+    margin-top: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* ---------- SMALL BUTTON ---------- */
+.order-btnn.small {
+    padding: 10px 22px;
+    font-size: 14px;
+    border-radius: 25px;
+}
