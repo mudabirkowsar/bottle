@@ -2,6 +2,7 @@ const express = require('express')
 const bcrypt = require("bcrypt")
 const jwt = require("jsonwebtoken")
 const crypto = require("crypto")
+const protect = require("../middleware/authMiddleware");
 
 const User = require('../models/User')
 const { default: sendEmail } = require('../utils/sendEmail')
@@ -214,6 +215,35 @@ router.post('/verify-email', async (req, res) => {
         });
     }
 });
+
+
+//Get users orders to show on frontend 
+
+router.get('/get-all-orders', protect, async (req, res) => {
+    try {
+        const id = req.user.id;
+
+        const allOrders = await User.findById(id).populate("orders");
+
+        if (!allOrders) {
+            res.status(400).json({
+                message: "Something went wrong"
+            })
+        }
+
+        const orders = allOrders.orders
+
+        res.status(200).json({
+            message: "Orders Found ",
+            orders
+        })
+
+    } catch (error) {
+        res.status(500).json({
+            message: "Internal server Error"
+        })
+    }
+})
 
 
 module.exports = router
