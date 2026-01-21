@@ -78,10 +78,6 @@ function UserOrders() {
                                     Ordered on:{" "}
                                     {new Date(order.createdAt).toLocaleDateString()}
                                 </span>
-
-                                <button className="order-btnn small">
-                                    View Details
-                                </button>
                             </div>
                         </div>
                     ))}

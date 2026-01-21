@@ -133,3 +133,95 @@
     background: #d1f7e3;
     color: #0f5132;
 }
+
+/* =========================
+   RESPONSIVE STYLES – ORDERS
+   ========================= */
+
+/* ---------- TABLETS (≤ 900px) ---------- */
+@media (max-width: 900px) {
+    .order-card {
+        padding: 22px;
+    }
+
+    .order-card-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+
+    .order-status {
+        align-self: flex-start;
+    }
+
+    .order-card-footer {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+    }
+
+    .order-btnn.small {
+        width: 100%;
+        text-align: center;
+    }
+
+    .order-meta {
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+}
+
+/* ---------- MOBILE (≤ 600px) ---------- */
+@media (max-width: 600px) {
+    .order-card {
+        padding: 18px;
+        border-radius: 14px;
+    }
+
+    .order-card-header h3 {
+        font-size: 16px;
+    }
+
+    .order-id {
+        font-size: 12px;
+    }
+
+    .order-details p {
+        font-size: 13px;
+    }
+
+    .order-meta span {
+        font-size: 12px;
+        padding: 5px 10px;
+    }
+
+    .order-note {
+        font-size: 12px;
+        padding: 8px;
+    }
+
+    .order-card-footer {
+        gap: 10px;
+    }
+
+    .order-btnn.small {
+        font-size: 13px;
+        padding: 9px 18px;
+    }
+}
+
+/* ---------- EXTRA SMALL DEVICES (≤ 400px) ---------- */
+@media (max-width: 400px) {
+    .order-card {
+        padding: 15px;
+    }
+
+    .order-card-header h3 {
+        font-size: 15px;
+    }
+
+    .order-status {
+        font-size: 12px;
+        padding: 5px 12px;
+    }
+}

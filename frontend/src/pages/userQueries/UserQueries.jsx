@@ -26,7 +26,7 @@ function UserQueries() {
 
             {/* Header */}
             <div className="order-header">
-                <h1>User Queries</h1>
+                <h1>My Queries</h1>
                 <p>Support requests submitted by users</p>
             </div>
 
@@ -38,7 +38,7 @@ function UserQueries() {
                         <p style={{ textAlign: "center" }}>No queries found</p>
                     )}
 
-                    {queries.map((query) => (
+                    {[...queries].reverse().map((query) => (
                         <div className="query-card" key={query._id}>
 
                             {/* Header */}
@@ -70,10 +70,6 @@ function UserQueries() {
                                     Submitted on:{" "}
                                     {new Date(query.createdAt).toLocaleDateString()}
                                 </span>
-
-                                <button className="order-btnn small">
-                                    View / Reply
-                                </button>
                             </div>
 
                         </div>
