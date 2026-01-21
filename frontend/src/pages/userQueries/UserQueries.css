@@ -1,0 +1,87 @@
+/* ---------- QUERIES WRAPPER ---------- */
+.queries-wrapper {
+    grid-template-columns: 1fr;
+}
+
+/* ---------- QUERY CARD ---------- */
+.query-card {
+    background: #ffffff;
+    padding: 28px;
+    border-radius: 18px;
+    box-shadow: 0 18px 35px rgba(0, 0, 0, 0.1);
+    transition: 0.3s;
+}
+
+.query-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 25px 45px rgba(0, 0, 0, 0.15);
+}
+
+/* ---------- HEADER ---------- */
+.query-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.query-header h3 {
+    margin: 0;
+    font-size: 18px;
+    color: #0c5460;
+}
+
+.query-id {
+    font-size: 13px;
+    color: #6c757d;
+}
+
+/* ---------- STATUS ---------- */
+.query-status {
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.query-status.open {
+    background: #fde2e2;
+    color: #842029;
+}
+
+.query-status.in-progress {
+    background: #fff3cd;
+    color: #664d03;
+}
+
+.query-status.resolved {
+    background: #d1f7e3;
+    color: #0f5132;
+}
+
+/* ---------- MESSAGE ---------- */
+.query-message {
+    font-size: 14px;
+    color: #444;
+    margin: 12px 0 18px;
+    line-height: 1.6;
+}
+
+/* ---------- FOOTER ---------- */
+.query-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.query-date {
+    font-size: 13px;
+    color: #6c757d;
+}
+
+/* ---------- SMALL BUTTON ---------- */
+.order-btnn.small {
+    padding: 10px 22px;
+    font-size: 14px;
+    border-radius: 25px;
+}

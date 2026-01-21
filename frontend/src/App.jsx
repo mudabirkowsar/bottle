@@ -9,6 +9,7 @@ import LoginPage from './pages/authPages/loginPage/LoginPage'
 import SignupPage from './pages/authPages/signupPage/SignupPage'
 import NavbarAdmin from './admin/NavbarAdmin'
 import UserOrders from './pages/userOrder/UserOrders'
+import UserQueries from './pages/userQueries/UserQueries'
 
 function App() {
 
@@ -21,6 +22,7 @@ function App() {
         <Route path='/ordernow' element={<OrderNow />} />
 
         <Route path='/my-orders' element={<UserOrders />} />
+        <Route path='/my-queries' element={<UserQueries/>}/>
 
         <Route path='/login' element={<LoginPage />} />
         <Route path='/signup' element={<SignupPage />} />
