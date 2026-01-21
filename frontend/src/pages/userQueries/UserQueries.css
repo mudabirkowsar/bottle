@@ -85,3 +85,46 @@
     font-size: 14px;
     border-radius: 25px;
 }
+
+/* ---------- QUERY DETAILS ---------- */
+.query-details p {
+    font-size: 14px;
+    margin: 6px 0;
+    color: #444;
+}
+
+/* ---------- MESSAGE BOX ---------- */
+.query-message-box {
+    margin-top: 12px;
+    background: #f4f7fb;
+    padding: 12px;
+    border-radius: 12px;
+    font-size: 14px;
+}
+
+.query-message-box p {
+    margin-top: 6px;
+    line-height: 1.6;
+}
+
+/* ---------- STATUS ---------- */
+.query-status.pending {
+    background: #fff3cd;
+    color: #664d03;
+}
+
+.query-status.resolved {
+    background: #d1f7e3;
+    color: #0f5132;
+}
+
+.query-status.closed {
+    background: #e2e3e5;
+    color: #41464b;
+}
+
+/* ---------- DATE ---------- */
+.query-date {
+    font-size: 13px;
+    color: #6c757d;
+}

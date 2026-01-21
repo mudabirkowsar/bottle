@@ -9,7 +9,7 @@ const { default: sendEmail } = require('../utils/sendEmail')
 
 const router = express.Router()
 
-
+//Create User
 router.post('/create-user', async (req, res) => {
     const { name, email, password } = req.body;
     const otp = crypto.randomInt(100000, 999999).toString();
@@ -85,8 +85,7 @@ router.post('/create-user', async (req, res) => {
     }
 });
 
-
-
+//Login user
 router.post('/login-user', async (req, res) => {
     const { email, password } = req.body;
 
@@ -142,7 +141,6 @@ router.post('/login-user', async (req, res) => {
 
 
 //VerifyOTP
-
 router.post('/verify-email', async (req, res) => {
     const { email, otp } = req.body;
 
@@ -218,26 +216,50 @@ router.post('/verify-email', async (req, res) => {
 
 
 //Get users orders to show on frontend 
-
 router.get('/get-all-orders', protect, async (req, res) => {
     try {
         const id = req.user.id;
 
         const allOrders = await User.findById(id).populate("orders");
+        const orders = allOrders.orders
 
-        if (!allOrders) {
+        if (!orders) {
             res.status(400).json({
                 message: "Something went wrong"
             })
         }
 
-        const orders = allOrders.orders
 
         res.status(200).json({
             message: "Orders Found ",
             orders
         })
 
+    } catch (error) {
+        res.status(500).json({
+            message: "Internal server Error"
+        })
+    }
+})
+
+//Get Queries from user
+router.get('/get-all-queries', protect, async (req, res) => {
+    try {
+        const id = req.user.id
+
+        const allQueries = await User.findById(id).populate("queries")
+        const queries = allQueries.queries
+
+        if (!queries) {
+            res.status(400).json({
+                message: "No Query found"
+            })
+        }
+
+        res.status(200).json({
+            message: "Queries Found",
+            queries
+        })
     } catch (error) {
         res.status(500).json({
             message: "Internal server Error"

@@ -20,7 +20,16 @@ export const verifyOTP = async (userData) => {
 export const getUserOrders = async () => {
     const response = await api.get('/user/get-all-orders', {
         headers: {
-            Authorization:token
+            Authorization: token
+        }
+    })
+    return response
+}
+
+export const getUserQueries = async () => {
+    const response = await api.get('/user/get-all-queries', {
+        headers: {
+            Authorization: token
         }
     })
     return response
