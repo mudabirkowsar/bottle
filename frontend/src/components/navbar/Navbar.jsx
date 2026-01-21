@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import './Navbar.css';
 import { useNavigate } from 'react-router-dom';
 import { getOrders } from '../../services/orderAPI';
-import { jwtDecode } from "jwt-decode"
+import { jwtDecode } from "jwt-decode";
 
 function Navbar() {
     const [menuOpen, setMenuOpen] = useState(false);
@@ -10,26 +10,25 @@ function Navbar() {
     const [isLogin, setIsLogin] = useState(false);
     const [showLogoutConfirm, setShowLogoutConfirm] = useState(false);
     const [userRole, setUserRole] = useState(null);
+    const [username, setUsername] = useState(null)
 
     const navigate = useNavigate();
 
     useEffect(() => {
         const token = localStorage.getItem("token");
-
         if (!token) return;
 
         try {
             const decoded = jwtDecode(token);
             setUserRole(decoded.role);
+            setUsername(decoded.name)
             setIsLogin(true);
         } catch (error) {
-            console.error("Invalid token");
             localStorage.removeItem("token");
             setIsLogin(false);
             setUserRole(null);
         }
     }, []);
-
 
     const fetchData = async () => {
         try {
@@ -61,12 +60,10 @@ function Navbar() {
     return (
         <>
             <nav className="navbar">
-                {/* Logo */}
                 <div className="navbar-logo" onClick={() => handleNavigate("/")}>
                     Aqua<span>Pure</span>
                 </div>
 
-                {/* Hamburger */}
                 <div
                     className={`hamburger ${menuOpen ? 'active' : ''}`}
                     onClick={() => setMenuOpen(!menuOpen)}
@@ -76,47 +73,48 @@ function Navbar() {
                     <span></span>
                 </div>
 
-                {/* Menu */}
                 <ul className={`navbar-menu ${menuOpen ? 'open' : ''}`}>
                     <li className="nav-item" onClick={() => handleNavigate("/")}>Home</li>
-                    <li className="nav-item" onClick={() => handleNavigate("/aboutus")}>
-                        About Business
-                    </li>
-                    <li className="nav-item" onClick={() => handleNavigate("/query")}>
-                        Query
-                    </li>
+                    <li className="nav-item" onClick={() => handleNavigate("/aboutus")}>About Business</li>
+                    <li className="nav-item" onClick={() => handleNavigate("/query")}>Query</li>
 
                     <div className="nav-buttons">
-                        {isLogin ? (
-                            <li>
-                                <button
-                                    className="login-btn"
-                                    onClick={() => setShowLogoutConfirm(true)}
-                                >
-                                    Logout
-                                </button>
-                            </li>
-                        ) : (
+                        {!isLogin && (
                             <li onClick={() => handleNavigate("/login")}>
                                 <button className="login-btn">Login</button>
                             </li>
                         )}
-                        {userRole == "admin" &&
-                            <>
-                                <li className="order-btn" onClick={() => handleNavigate("/admin/dashboard")}>Admin Dashboard</li>
-                            </>
-                        }
+
+                        {userRole === "admin" && (
+                            <li className="order-btn" onClick={() => handleNavigate("/admin/dashboard")}>
+                                Admin Dashboard
+                            </li>
+                        )}
 
                         <li onClick={() => handleNavigate("/ordernow")}>
                             <button className="order-btn">Order Now</button>
                         </li>
+
+                        {isLogin && (
+                            <li className="user-menu">
+                                <div className="user-avatar">
+                                    {username?.slice(0, 2).toUpperCase()}
+                                </div>
+
+                                <div className="user-dropdown">
+                                    <span onClick={() => handleNavigate("/my-orders")}>My Orders</span>
+                                    <span onClick={() => handleNavigate("/my-queries")}>My Queries</span>
+                                    <span className="logout-text" onClick={() => setShowLogoutConfirm(true)}>
+                                        Logout
+                                    </span>
+                                </div>
+                            </li>
+
+                        )}
                     </div>
-
-
                 </ul>
             </nav>
 
-            {/* LOGOUT CONFIRMATION MODAL */}
             {showLogoutConfirm && (
                 <div className="logout-overlay">
                     <div className="logout-modal">
@@ -124,16 +122,10 @@ function Navbar() {
                         <p>Are you sure you want to log out?</p>
 
                         <div className="logout-actions">
-                            <button
-                                className="cancel-btn"
-                                onClick={() => setShowLogoutConfirm(false)}
-                            >
+                            <button className="cancel-btn" onClick={() => setShowLogoutConfirm(false)}>
                                 Cancel
                             </button>
-                            <button
-                                className="confirm-btn"
-                                onClick={handleLogoutConfirm}
-                            >
+                            <button className="confirm-btn" onClick={handleLogoutConfirm}>
                                 Logout
                             </button>
                         </div>
