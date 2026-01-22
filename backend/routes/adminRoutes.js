@@ -182,11 +182,34 @@ router.put('/update-query-status/:id', protect, async (req, res) => {
 })
 
 //Update User
-
-router.put("/update-user/:id", protect, (req, res) => {
+router.put("/update-user/:id", protect, async (req, res) => {
     try {
-        const {id} = req.params
-        const {role} = req.body
+        const { id } = req.params
+        const { role } = req.body
+
+        const user = await User.findByIdAndUpdate(
+            id,
+            { role },
+            { new: true }
+        )
+
+        if (req.user.role !== "admin") {
+            return res.status(403).json({
+                message: "Access denied"
+            });
+        }
+
+
+        if (!user) {
+            return res.status(404).json({
+                message: "User not Found "
+            })
+        }
+
+        res.status(200).json({
+            message: "User Updated Successfully",
+            user,
+        })
     } catch (error) {
         res.status(500).json({
             message: "Internal server Error"
