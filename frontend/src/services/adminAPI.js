@@ -66,3 +66,11 @@ export const deleteQuery = (id) => {
     })
     return response
 }
+
+export const updateUserAdmin = (id) => {
+    const response = api.put(`/admin/update-user/${id}`, {
+        headers: {
+            Authorization: token
+        }
+    })
+}
