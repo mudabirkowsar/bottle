@@ -13,7 +13,7 @@ router.post("/", protect, async (req, res) => {
             return res.status(404).json({
                 message: "All fields are required"
             })
-        }
+        } 
 
         const query = new Query({
             user: userId,
