@@ -66,7 +66,6 @@ router.get('/all-orders', protect, async (req, res) => {
 
 
 // Update status of Order 
-
 router.put("/update-order-status/:id", protect, async (req, res) => {
     try {
         const { status } = req.body;
@@ -131,7 +130,7 @@ router.put("/update-order-status/:id", protect, async (req, res) => {
     }
 });
 
-
+//Update status of Order 
 router.put('/update-query-status/:id', protect, async (req, res) => {
     try {
         const { status } = req.body;
@@ -182,6 +181,18 @@ router.put('/update-query-status/:id', protect, async (req, res) => {
     }
 })
 
+//Update User
+
+router.put("/update-user/:id", protect, (req, res) => {
+    try {
+        const {id} = req.params
+        const {role} = req.body
+    } catch (error) {
+        res.status(500).json({
+            message: "Internal server Error"
+        })
+    }
+})
 
 // Delete user 
 router.delete('/delete-user/:id', protect, async (req, res) => {
@@ -210,7 +221,6 @@ router.delete('/delete-user/:id', protect, async (req, res) => {
 })
 
 // Delete Query 
-
 router.delete('/delete-query/:id', protect, async (req, res) => {
     console.log(req.params.id)
     try {
