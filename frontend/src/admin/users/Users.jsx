@@ -1,9 +1,36 @@
 import React, { useState, useEffect } from "react";
 import "./Users.css";
-import { deleteUser, getAllUsers } from "../../services/adminAPI";
+import { deleteUser, getAllUsers, updateUserAdmin } from "../../services/adminAPI";
 
 function Users() {
-    const [users, setUsers] = useState([]);
+    const [users, setUsers] = useState([]);    /* ADD / EDIT MODAL STATE */
+    const [showModal, setShowModal] = useState(false);
+    const [editingUser, setEditingUser] = useState(null);
+    const [formData, setFormData] = useState({
+        name: "",
+        email: "",
+        role: "user",
+    });
+
+    /* DELETE CONFIRM MODAL STATE */
+    const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
+    const [deleteUserId, setDeleteUserId] = useState(null);
+
+    const openAddModal = () => {
+        setEditingUser(null);
+        setFormData({ name: "", email: "", role: "user" });
+        setShowModal(true);
+    };
+
+    const openEditModal = async (user) => {
+        setEditingUser(user);
+        setFormData(user);
+        setShowModal(true);
+    };
+
+    const handleChange = (e) => {
+        setFormData({ ...formData, [e.target.name]: e.target.value });
+    };
 
     /* FETCH USERS */
     const fetchUsers = async () => {
@@ -24,46 +51,15 @@ function Users() {
         fetchUsers();
     }, []);
 
-    /* ADD / EDIT MODAL STATE */
-    const [showModal, setShowModal] = useState(false);
-    const [editingUser, setEditingUser] = useState(null);
-    const [formData, setFormData] = useState({
-        name: "",
-        email: "",
-        role: "user",
-    });
 
-    /* DELETE CONFIRM MODAL STATE */
-    const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
-    const [deleteUserId, setDeleteUserId] = useState(null);
-
-    const openAddModal = () => {
-        setEditingUser(null);
-        setFormData({ name: "", email: "", role: "user" });
-        setShowModal(true);
-    };
-
-    const openEditModal = (user) => {
-        setEditingUser(user);
-        setFormData(user);
-        setShowModal(true);
-    };
-
-    const handleChange = (e) => {
-        setFormData({ ...formData, [e.target.name]: e.target.value });
-    };
-
-    const handleSave = () => {
-        if (editingUser) {
-            setUsers(
-                users.map((u) =>
-                    u.id === editingUser.id ? { ...u, ...formData } : u
-                )
-            );
-        } else {
-            setUsers([...users, { ...formData, id: Date.now() }]);
+    const handleSave = async () => {
+        try {
+            const res = await updateUserAdmin(editingUser._id, formData)
+            fetchUsers();
+            setShowModal(false);
+        } catch (error) {
+            alert("Something went wrong")
         }
-        setShowModal(false);
     };
 
     /* OPEN DELETE CONFIRM MODAL */
