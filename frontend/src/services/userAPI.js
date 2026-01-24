@@ -34,3 +34,12 @@ export const getUserQueries = async () => {
     })
     return response
 }
+
+export const getCurrentUser = async () => {
+    const response = await api.get('/user/get-current-user', {
+        headers: {
+            Authorization: token
+        }
+    })
+    return response
+}

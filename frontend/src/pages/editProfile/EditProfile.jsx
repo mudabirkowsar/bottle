@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import './EditProfile.css';
 import Navbar from '../../components/navbar/Navbar'
 import Footer from '../../components/footer/Footer'
-import { getAllUsers } from '../../services/adminAPI';
+import { getCurrentUser } from '../../services/userAPI';
 
 function EditProfile() {
     const [formData, setFormData] = useState({
@@ -12,8 +12,32 @@ function EditProfile() {
         address: '',
         city: '',
         state: '',
-        pincode: '',
+        pin: '',
     });
+
+    const fetchUser = async () => {
+        try {
+            const res = await getCurrentUser();
+            const user = res.data.data
+            console.log(user)
+            setFormData({
+                name: user.name,
+                email: user.email,
+                phone: user.phone,
+                address: user.address,
+                city: user.city,
+                state: user.state,
+                pin: user.pin
+            })
+        } catch (error) {
+            alert("Something went wrong")
+            console.log(error.message)
+        }
+    }
+
+    useEffect(() => {
+        fetchUser()
+    }, [])
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -59,7 +83,7 @@ function EditProfile() {
                         <textarea name="address" placeholder="Address" value={formData.address} onChange={handleChange} />
                         <input type="text" name="city" placeholder="City" value={formData.city} onChange={handleChange} />
                         <input type="text" name="state" placeholder="State" value={formData.state} onChange={handleChange} />
-                        <input type="text" name="pincode" placeholder="Pincode" value={formData.pincode} onChange={handleChange} />
+                        <input type="text" name="pin" placeholder="Pincode" value={formData.pin} onChange={handleChange} />
 
                         <button type="submit">Save Changes</button>
                     </form>

@@ -139,7 +139,6 @@ router.post('/login-user', async (req, res) => {
     }
 })
 
-
 //VerifyOTP
 router.post('/verify-email', async (req, res) => {
     const { email, otp } = req.body;
@@ -214,7 +213,6 @@ router.post('/verify-email', async (req, res) => {
     }
 });
 
-
 //Get users orders to show on frontend 
 router.get('/get-all-orders', protect, async (req, res) => {
     try {
@@ -266,6 +264,33 @@ router.get('/get-all-queries', protect, async (req, res) => {
         })
     }
 })
+
+// Get current user (without sensitive fields)
+router.get("/get-current-user", protect, async (req, res) => {
+    try {
+        const id = req.user.id;
+
+        const foundUser = await User.findById(id).select(
+            "-password -__v -createdAt -updatedAt -orders -queries -role -isEmailVerified"
+        );
+
+        if (!foundUser) {
+            return res.status(404).json({
+                message: "User Not Found",
+            });
+        }
+
+        res.status(200).json({
+            message: "User found",
+            data: foundUser,
+        });
+    } catch (error) {
+        res.status(500).json({
+            message: "Internal Server Error",
+        });
+    }
+});
+
 
 
 module.exports = router

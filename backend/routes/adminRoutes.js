@@ -10,7 +10,9 @@ const router = express.Router();
 // Get all users for admin
 router.get("/all-users", protect, async (req, res) => {
     try {
-        const allUsers = await User.find();
+        const allUsers = await User.find().select(
+            "-password"
+        )
 
         res.status(200).json({
             message: "Users found",
