@@ -10,22 +10,26 @@ const router = express.Router();
 router.post("/", protect, async (req, res) => {
     try {
         const userId = req.user.id;
-        const { size, quantity, name, phone, email, address, note } = req.body;
+        const { size, quantity, name, phone, email, address, city, state, pin, note } = req.body;
 
+        console.log(size, quantity, name, phone, email, address, city, state, pin, note)
         // Validation
-        if (!size || !quantity || !name || !phone || !email || !address || !note) {
+        if (!size || !quantity || !name || !phone || !email || !address || !state || !city || !pin || !note) {
+            console.log("All fiends rfkj")
             return res.status(400).json({
                 message: "All fields are required"
             });
         }
 
-        if (phone.length != 10) {
-            return res.status(400).json({
-                message: "Enter Valid Phone Number",
-            })
-        }
+        // if (phone.length != 10) {
+        //     console.log("Error 2")
+        //     return res.status(400).json({
+        //         message: "Enter Valid Phone Number",
+        //     })
+        // }
 
         if (quantity < 100) {
+            console.log("Error 3")
             return res.status(400).json({
                 message: "Quantity Should be Greater than 100",
             })
@@ -33,7 +37,7 @@ router.post("/", protect, async (req, res) => {
 
         const order = new Order({
             user: userId,
-            size, quantity, name, phone, email, address, note
+            size, quantity, name, phone, email, address, city, state, pin, note
         });
 
         await order.save();

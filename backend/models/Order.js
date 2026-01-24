@@ -36,6 +36,21 @@ const orderSchema = new mongoose.Schema({
         required: true,
     },
 
+    city: {
+        type: String,
+        required: true
+    },
+
+    state: {
+        type: String,
+        required: true
+    },
+
+    pin: {
+        type: Number,
+        required: true
+    },
+
     note: {
         type: String,
     },

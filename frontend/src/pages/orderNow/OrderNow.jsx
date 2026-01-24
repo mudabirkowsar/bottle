@@ -3,6 +3,8 @@ import Navbar from '../../components/navbar/Navbar'
 import Footer from '../../components/footer/Footer'
 import './OrderNow.css'
 import { placeOrder } from '../../services/orderAPI'
+import { useEffect } from 'react'
+import { getCurrentUser } from '../../services/userAPI'
 
 function OrderNow() {
     const [order, setOrder] = useState({
@@ -12,19 +14,44 @@ function OrderNow() {
         phone: '',
         email: '',
         address: '',
+        city: '',
+        state: '',
+        pin: '',
         note: '',
     })
 
+    const [user, setUser] = useState(null);
     const [status, setStatus] = useState({ type: '', msg: '' })
-
-    // NEW: State to control modal visibility
-    const [showModal, setShowModal] = useState(false);
+    const [showModal, setShowModal] = useState(false)
 
     const handleChange = (e) => {
         setOrder({ ...order, [e.target.name]: e.target.value })
     }
 
-    // Step 1: User clicks "Confirm Order" -> Validates form -> Opens Modal
+    const fetchUser = async () => {
+        try {
+            const res = await getCurrentUser();
+            const userData = res.data.data;
+            setUser(userData);
+            setOrder({
+                name: userData?.name || '',
+                email: userData?.email || '',
+                phone: userData?.phone || '',
+                address: userData?.address || '',
+                city: userData?.city || '',
+                state: userData?.state || '',
+                pin: userData?.pin || '',
+            })
+        } catch (error) {
+            console.log(error.message)
+            setStatus({ type: 'error', msg: "User Not Found" })
+        }
+    }
+
+    useEffect(() => {
+        fetchUser();
+    }, [])
+
     const handleFormSubmit = (e) => {
         e.preventDefault()
         setStatus({ type: '', msg: '' })
@@ -33,17 +60,20 @@ function OrderNow() {
             setStatus({ type: 'error', msg: "Quantity should be greater than 100" })
             return
         }
-        setShowModal(true);
+
+        setShowModal(true)
     }
 
-    // Step 2: User clicks "Yes, Place Order" in Modal -> API Call happens
     const confirmAndPlaceOrder = async () => {
-        setShowModal(false);
+        setShowModal(false)
 
         try {
-            const res = await placeOrder(order);
+            await placeOrder(order)
 
-            setStatus({ type: 'success', msg: "Order placed successfully! We will contact you shortly." })
+            setStatus({
+                type: 'success',
+                msg: "Order placed successfully! We will contact you shortly."
+            })
 
             setOrder({
                 size: '500ml',
@@ -52,18 +82,19 @@ function OrderNow() {
                 phone: '',
                 email: '',
                 address: '',
+                city: '',
+                state: '',
+                pin: '',
                 note: '',
             })
 
-            setTimeout(() => setStatus({ type: '', msg: '' }), 5000);
+            setTimeout(() => setStatus({ type: '', msg: '' }), 5000)
 
         } catch (error) {
-            console.error("Order Error:", error);
-            const errorMsg = error.response && error.response.data
-                ? error.response.data.message
-                : "Something went wrong. Please try again.";
-
-            setStatus({ type: 'error', msg: errorMsg })
+            setStatus({
+                type: 'error',
+                msg: "Something went wrong. Please try again."
+            })
         }
     }
 
@@ -77,14 +108,12 @@ function OrderNow() {
             </section>
 
             <section className="order-container">
-                {/* Changed onSubmit to handleFormSubmit */}
                 <form className="order-form" onSubmit={handleFormSubmit}>
                     <h2>Order Details</h2>
 
                     {status.msg && (
                         <div className={`status-message ${status.type}`}>
-                            {status.type === 'success' ? <i className="fas fa-check-circle"></i> : <i className="fas fa-exclamation-circle"></i>}
-                            &nbsp; {status.msg}
+                            {status.msg}
                         </div>
                     )}
 
@@ -104,10 +133,9 @@ function OrderNow() {
                         <input
                             type="number"
                             name="quantity"
-                            placeholder="Enter quantity"
                             value={order.quantity}
-                            required
                             onChange={handleChange}
+                            required
                         />
                     </div>
 
@@ -118,10 +146,9 @@ function OrderNow() {
                         <input
                             type="text"
                             name="name"
-                            placeholder="Your full name"
                             value={order.name}
-                            required
                             onChange={handleChange}
+                            required
                         />
                     </div>
 
@@ -130,10 +157,9 @@ function OrderNow() {
                         <input
                             type="tel"
                             name="phone"
-                            placeholder="10-digit mobile number"
                             value={order.phone}
-                            required
                             onChange={handleChange}
+                            required
                         />
                     </div>
 
@@ -142,21 +168,52 @@ function OrderNow() {
                         <input
                             type="email"
                             name="email"
-                            required
-                            placeholder="example@email.com"
                             value={order.email}
                             onChange={handleChange}
+                            required
                         />
                     </div>
 
                     <div className="form-group">
-                        <label>Delivery Address</label>
+                        <label>City</label>
+                        <input
+                            type="text"
+                            name="city"
+                            value={order.city}
+                            onChange={handleChange}
+                            required
+                        />
+                    </div>
+
+                    <div className="form-group">
+                        <label>State</label>
+                        <input
+                            type="text"
+                            name="state"
+                            value={order.state}
+                            onChange={handleChange}
+                            required
+                        />
+                    </div>
+
+                    <div className="form-group">
+                        <label>Pin Code</label>
+                        <input
+                            type="text"
+                            name="pin"
+                            value={order.pin}
+                            onChange={handleChange}
+                            required
+                        />
+                    </div>
+
+                    <div className="form-group">
+                        <label>Full Delivery Address</label>
                         <textarea
                             name="address"
-                            placeholder="Complete delivery address"
                             value={order.address}
-                            required
                             onChange={handleChange}
+                            required
                         />
                     </div>
 
@@ -164,7 +221,6 @@ function OrderNow() {
                         <label>Additional Notes</label>
                         <textarea
                             name="note"
-                            placeholder="Any special instructions?"
                             value={order.note}
                             onChange={handleChange}
                         />
@@ -176,18 +232,19 @@ function OrderNow() {
                 </form>
             </section>
 
-            {/* --- MODAL POPUP --- */}
             {showModal && (
                 <div className="modal-overlay">
                     <div className="modal-box">
                         <h3>Confirm Order</h3>
-                        <p>Please review your order details:</p>
 
                         <div className="modal-summary">
                             <p><strong>Size:</strong> {order.size}</p>
                             <p><strong>Quantity:</strong> {order.quantity}</p>
                             <p><strong>Name:</strong> {order.name}</p>
                             <p><strong>Phone:</strong> {order.phone}</p>
+                            <p><strong>City:</strong> {order.city}</p>
+                            <p><strong>State:</strong> {order.state}</p>
+                            <p><strong>Pin:</strong> {order.pin}</p>
                             <p><strong>Address:</strong> {order.address}</p>
                         </div>
 
