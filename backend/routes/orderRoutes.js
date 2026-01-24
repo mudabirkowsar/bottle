@@ -3,7 +3,6 @@ const Order = require("../models/Order");
 const protect = require("../middleware/authMiddleware");
 const { default: sendEmail } = require("../utils/sendEmail");
 const User = require("../models/User");
-
 const router = express.Router();
 
 // POST: Create a new order
@@ -15,7 +14,7 @@ router.post("/", protect, async (req, res) => {
         console.log(size, quantity, name, phone, email, address, city, state, pin, note)
         // Validation
         if (!size || !quantity || !name || !phone || !email || !address || !state || !city || !pin || !note) {
-            console.log("All fiends rfkj")
+            console.log("Error 1")
             return res.status(400).json({
                 message: "All fields are required"
             });
@@ -29,7 +28,7 @@ router.post("/", protect, async (req, res) => {
         // }
 
         if (quantity < 100) {
-            console.log("Error 3")
+            console.log("Error 2")
             return res.status(400).json({
                 message: "Quantity Should be Greater than 100",
             })
@@ -77,7 +76,6 @@ router.post("/", protect, async (req, res) => {
 router.get('/', async (req, res) => {
     try {
         const orders = await Order.find();
-        // Changed 201 to 200 (OK)
         res.status(200).json({
             data: orders,
             message: "Orders Found",

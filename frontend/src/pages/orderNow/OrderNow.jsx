@@ -7,6 +7,7 @@ import { useEffect } from 'react'
 import { getCurrentUser } from '../../services/userAPI'
 
 function OrderNow() {
+
     const [order, setOrder] = useState({
         size: '500ml',
         quantity: '',
