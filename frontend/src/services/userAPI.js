@@ -43,3 +43,12 @@ export const getCurrentUser = async () => {
     })
     return response
 }
+
+export const updateCurrentUser = async (id, data) => {
+    const response = await api.put(`/user/update-current-user/${id}`, data, {
+        headers: {
+            Authorization: token
+        }
+    })
+    return response
+}

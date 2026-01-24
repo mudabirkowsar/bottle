@@ -291,6 +291,30 @@ router.get("/get-current-user", protect, async (req, res) => {
     }
 });
 
+//Update User 
+router.put('/update-current-user/:id', protect, async (req, res) => {
+    try {
+        const { id } = req.params
+        const { name, phone, address, city, state, pin } = req.body
+
+        const updatedUser = await User.findByIdAndUpdate(
+            id,
+            { name, phone, address, city, state, pin },
+            { new: true }
+        )
+
+        res.status(200).json({
+            message: "Updated Successfully",
+            data: updatedUser
+        })
+
+    } catch (error) {
+        res.status(500).json({
+            message: "Internal Server Error"
+        })
+    }
+})
+
 
 
 module.exports = router
