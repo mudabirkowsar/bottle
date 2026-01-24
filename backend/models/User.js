@@ -25,6 +25,22 @@ const userSchema = new mongoose.Schema({
         default: 'user'
     },
 
+    address: {
+        type: String,
+    },
+
+    city: {
+        type: String
+    },
+
+    state: {
+        type: String,
+    },
+
+    pin: {
+        type: Number,
+    },
+
     orders: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: "Order"

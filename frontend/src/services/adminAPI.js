@@ -1,6 +1,7 @@
 import api from "./api";
 
 const token = localStorage.getItem('token')
+
 export const getAllUsers = () => {
     const response = api.get('/admin/all-users',
         {

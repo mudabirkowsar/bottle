@@ -1,0 +1,117 @@
+/* Page layout */
+.edit-profile-page {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px;
+    padding-top: 100px;
+    background: linear-gradient(120deg, #eef2ff, #f8fafc);
+    gap: 80px;
+}
+
+/* LEFT SIDE */
+.edit-profile-info {
+    flex: 1;
+    max-width: 420px;
+}
+
+.edit-profile-info h1 {
+    font-size: 32px;
+    color: #1e293b;
+    margin-bottom: 15px;
+}
+
+.edit-profile-info p {
+    font-size: 15px;
+    color: #475569;
+    line-height: 1.6;
+    margin-bottom: 20px;
+}
+
+.edit-profile-info ul {
+    list-style: none;
+    padding: 0;
+}
+
+.edit-profile-info li {
+    font-size: 14px;
+    color: #334155;
+    margin-bottom: 10px;
+}
+
+/* RIGHT SIDE CARD */
+.edit-profile-container {
+    flex: 1;
+    max-width: 420px;
+    padding: 30px;
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+/* Heading */
+.edit-profile-container h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #1e293b;
+}
+
+/* Form */
+.edit-profile-form {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+/* Inputs */
+.edit-profile-form input,
+.edit-profile-form textarea {
+    padding: 11px 14px;
+    border: 1px solid #cbd5f5;
+    border-radius: 8px;
+    font-size: 14px;
+    outline: none;
+    transition: all 0.3s ease;
+}
+
+.edit-profile-form textarea {
+    resize: none;
+    height: 80px;
+}
+
+/* Focus */
+.edit-profile-form input:focus,
+.edit-profile-form textarea:focus {
+    border-color: #6366f1;
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
+}
+
+/* Button */
+.edit-profile-form button {
+    margin-top: 10px;
+    padding: 12px;
+    background: linear-gradient(135deg, #6366f1, #4f46e5);
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    font-size: 15px;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.edit-profile-form button:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 15px rgba(79, 70, 229, 0.4);
+}
+
+/* RESPONSIVE */
+@media (max-width: 900px) {
+    .edit-profile-page {
+        flex-direction: column;
+    }
+
+    .edit-profile-info {
+        text-align: center;
+    }
+}

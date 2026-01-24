@@ -10,6 +10,7 @@ import SignupPage from './pages/authPages/signupPage/SignupPage'
 import NavbarAdmin from './admin/NavbarAdmin'
 import UserOrders from './pages/userOrder/UserOrders'
 import UserQueries from './pages/userQueries/UserQueries'
+import EditProfile from './pages/editProfile/EditProfile'
 
 function App() {
 
@@ -26,6 +27,8 @@ function App() {
 
         <Route path='/login' element={<LoginPage />} />
         <Route path='/signup' element={<SignupPage />} />
+
+        <Route path='edit-profile' element={<EditProfile />} />
 
         <Route path='/admin/dashboard' element={<NavbarAdmin />} />
 

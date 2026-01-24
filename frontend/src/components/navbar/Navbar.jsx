@@ -102,6 +102,7 @@ function Navbar() {
                                 </div>
 
                                 <div className="user-dropdown">
+                                    <span onClick={() => handleNavigate("/edit-profile")}>Edit Profile</span>
                                     <span onClick={() => handleNavigate("/my-orders")}>My Orders</span>
                                     <span onClick={() => handleNavigate("/my-queries")}>My Queries</span>
                                     <span className="logout-text" onClick={() => setShowLogoutConfirm(true)}>
